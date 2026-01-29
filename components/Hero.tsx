@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -10,6 +10,7 @@ const roles = [
   "Photographer",
   "Videographer",
   "Graphic Designer",
+  "Content Creator",
 ];
 
 export default function Hero() {
@@ -18,7 +19,7 @@ export default function Hero() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentRole((prev) => (prev + 1) % roles.length);
-    }, 3000); // Change role every 3 seconds
+    }, 3000); 
     return () => clearInterval(interval);
   }, []);
 
@@ -45,17 +46,19 @@ export default function Hero() {
           className="text-5xl md:text-7xl font-bold text-white mb-6"
         >
           Hi, I am a{" "}
-          <span className="block mt-4 h-[1.2em] overflow-hidden text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-            <motion.span
-              key={currentRole}
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "-100%" }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="block"
-            >
-              {roles[currentRole]}
-            </motion.span>
+          <span className="block mt-4 h-[1.5em] relative w-full overflow-hidden">
+            <AnimatePresence initial={false}>
+              <motion.span
+                key={currentRole}
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: "-100%", opacity: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // smooth apple-like ease
+                className="absolute inset-x-0 top-0 w-full text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary leading-[1.5em]"
+              >
+                {roles[currentRole]}
+              </motion.span>
+            </AnimatePresence>
           </span>
         </motion.h1>
 
