@@ -6,11 +6,12 @@ import Image from "next/image";
 
 const projects = [
   {
-    title: "E-Commerce Platform",
+    title: "Profile Company",
     category: "Development",
-    image: "/api/placeholder/600/400", // Placeholder
-    description: "A full-stack e-commerce solution with payment integration.",
-    tags: ["Next.js", "Stripe", "Tailwind"],
+    image: "/projects/webrb.png", 
+    description: "A full-stack Profile Company website.",
+    tags: ["PHP", "XAMPP".],
+    link: "https://rumahbumnbanjarmasin.com/"
   },
   {
     title: "Cinematic Travel Vlog",
@@ -18,6 +19,7 @@ const projects = [
     image: "/api/placeholder/600/400",
     description: "Travel montage featuring seamless transitions and sound design.",
     tags: ["Premiere Pro", "After Effects"],
+    link: "#"
   },
   {
     title: "Product Photography",
@@ -25,6 +27,7 @@ const projects = [
     image: "/api/placeholder/600/400",
     description: "High-end product shots for a luxury watch brand.",
     tags: ["Lightroom", "Studio Lighting"],
+    link: "#"
   },
   {
     title: "Corporate Brand Identity",
@@ -32,6 +35,7 @@ const projects = [
     image: "/api/placeholder/600/400",
     description: "Complete branding package including logo, guidelines, and stationery.",
     tags: ["Illustrator", "Photoshop"],
+    link: "#"
   },
 ];
 
@@ -57,13 +61,30 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group relative rounded-xl overflow-hidden bg-white/5 border border-white/10"
+              className="group relative rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-primary/50 transition-all hover:-translate-y-1"
             >
-              <div className="aspect-video bg-gray-800 relative overflow-hidden">
+              <div className="aspect-video bg-gray-800 relative overflow-hidden group-hover:opacity-90 transition-opacity">
                 {/* Image Placeholder */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
-                <div className="absolute inset-0 flex items-center justify-center text-gray-600 font-bold text-xl">
-                   {project.title} Preview
+                {project.image.startsWith("http") || project.image.startsWith("/") ? (
+                   <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                ) : (
+                   <div className="absolute inset-0 flex items-center justify-center text-gray-600 font-bold text-xl">
+                      {project.title} Preview
+                   </div>
+                )}
+                
+                {/* Overlay with Link Button */}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                   {project.link !== "#" && (
+                    <a 
+                      href={project.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full font-medium transform translate-y-4 group-hover:translate-y-0 transition-all"
+                    >
+                      Visit Project <ExternalLink size={18} />
+                    </a>
+                   )}
                 </div>
               </div>
               
@@ -73,6 +94,11 @@ export default function Projects() {
                     <span className="text-primary text-sm font-medium mb-2 block">{project.category}</span>
                     <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
                   </div>
+                  {project.link !== "#" && (
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                      <ExternalLink size={20} />
+                    </a>
+                  )}
                 </div>
                 
                 <p className="text-gray-400 mb-6">{project.description}</p>
