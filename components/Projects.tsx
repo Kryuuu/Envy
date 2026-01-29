@@ -10,7 +10,7 @@ const projects = [
     category: "Development",
     image: "/projects/webrb.png", 
     description: "A full-stack Profile Company website.",
-    tags: ["PHP", "XAMPP".],
+    tags: ["PHP", "XAMPP"],
     link: "https://rumahbumnbanjarmasin.com/"
   },
   {
