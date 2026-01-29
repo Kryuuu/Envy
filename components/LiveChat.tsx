@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageSquare, X, Send, User, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
 
 export default function LiveChat() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +22,7 @@ export default function LiveChat() {
     scrollToBottom();
   }, [messages, isOpen]);
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
 
@@ -38,18 +39,37 @@ export default function LiveChat() {
     setMessage("");
     setIsTyping(true);
 
-    // Simulate bot reply
-    setTimeout(() => {
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: newUserMsg.text }),
+      });
+      
+      const data = await response.json();
+      
       setIsTyping(false);
       const botReply = {
         id: Date.now() + 1,
-        text: "Terima kasih pesannya! 🙏\n\nUntuk diskusi lebih lanjut dan respon cepat, silakan hubungi saya langsung melalui:",
+        text: data.text || "Maaf, saya tidak mengerti.",
         sender: "bot" as const,
         time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-        type: 'contact' as const
+        type: 'text' as const
       };
       setMessages(prev => [...prev, botReply]);
-    }, 1500);
+
+    } catch (error) {
+      console.error(error);
+      setIsTyping(false);
+      const errorReply = {
+         id: Date.now() + 1,
+         text: "Maaf, koneksi terputus.",
+         sender: "bot" as const,
+         time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+         type: 'text' as const
+       };
+       setMessages(prev => [...prev, errorReply]);
+    }
   };
 
   return (
@@ -72,8 +92,8 @@ export default function LiveChat() {
                     <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-primary rounded-full"></span>
                   </div>
                   <div>
-                    <h3 className="font-bold text-white text-sm">Customer Support</h3>
-                    <p className="text-blue-100 text-xs">Online</p>
+                    <h3 className="font-bold text-white text-sm">Nvy AI</h3>
+                    <p className="text-blue-100 text-xs">Always Active</p>
                   </div>
                </div>
                <button onClick={() => setIsOpen(false)} className="text-white/80 hover:text-white transition-colors">
@@ -92,28 +112,21 @@ export default function LiveChat() {
                          ? 'bg-primary text-white rounded-br-none' 
                          : 'bg-white/10 text-gray-200 rounded-bl-none'
                     }`}>
-                       <p className="whitespace-pre-line">{msg.text}</p>
+                       <div className="prose prose-sm max-w-none dark:prose-invert prose-p:my-1 prose-ul:my-1 prose-li:my-0 text-left">
+                         <ReactMarkdown
+                           components={{
+                             p: ({node, ...props}) => <p className="mb-1 last:mb-0" {...props} />,
+                             ul: ({node, ...props}) => <ul className="list-disc ml-4 mb-2" {...props} />,
+                             ol: ({node, ...props}) => <ol className="list-decimal ml-4 mb-2" {...props} />,
+                             li: ({node, ...props}) => <li className="mb-0.5" {...props} />,
+                             strong: ({node, ...props}) => <strong className="font-bold text-yellow-300" {...props} />,
+                             a: ({node, ...props}) => <a className="underline hover:text-blue-300" target="_blank" rel="noopener noreferrer" {...props} />
+                           }}
+                         >
+                           {msg.text}
+                         </ReactMarkdown>
+                       </div>
                        
-                       {/* Render Buttons if type is contact */}
-                       {msg.type === 'contact' && (
-                         <div className="mt-3 flex flex-col gap-2">
-                            <a 
-                              href="https://wa.me/6281913715220?text=Halo,%20saya%20ingin%20bertanya%20tentang%20jasa%20Anda" 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="bg-[#25D366] hover:bg-[#20bd5a] text-white py-2 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-colors"
-                            >
-                               Chat via WhatsApp
-                            </a>
-                            <a 
-                              href="mailto:ahmadshawity@gmail.com" 
-                              className="bg-gray-700 hover:bg-gray-600 text-white py-2 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-colors"
-                            >
-                               Send Email
-                            </a>
-                         </div>
-                       )}
-
                        <p className={`text-[10px] mt-1 text-right ${msg.sender === 'user' ? 'text-white/70' : 'text-gray-500'}`}>
                          {msg.time}
                        </p>
