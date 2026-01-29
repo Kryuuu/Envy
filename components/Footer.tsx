@@ -12,16 +12,16 @@ export default function Footer() {
         </div>
         
         <div className="flex justify-center md:justify-end space-x-6">
-          <a href="#" className="hover:text-primary transition-colors">
+          <a href="https://www.instagram.com/envy.ly_/" className="hover:text-primary transition-colors">
             <Instagram className="h-6 w-6" />
           </a>
-          <a href="#" className="hover:text-primary transition-colors">
+          <a href="https://github.com/Kryuuu" className="hover:text-primary transition-colors">
             <Github className="h-6 w-6" />
           </a>
-          <a href="#" className="hover:text-primary transition-colors">
+          <a href="https://www.linkedin.com/in/ahmad-shawity-8840582a6/" className="hover:text-primary transition-colors">
             <Linkedin className="h-6 w-6" />
           </a>
-          <a href="#" className="hover:text-primary transition-colors">
+          <a href="https://ahmadshawity@gmail.com/" className="hover:text-primary transition-colors">
             <Mail className="h-6 w-6" />
           </a>
         </div>
