@@ -13,9 +13,12 @@ export default function About() {
           viewport={{ once: true }}
           className="grid md:grid-cols-2 gap-12 items-center"
         >
-          <div className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 flex items-center justify-center">
-             {/* Placeholder for Profile Image */}
-             <span className="text-gray-500 text-6xl font-bold">You</span>
+          <div className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 flex items-center justify-center group">
+             <img 
+               src="/projects/my.png" 
+               alt="About Me" 
+               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+             />
           </div>
           
           <div>
