@@ -6,6 +6,7 @@ import Services from "@/components/Services";
 import Projects from "@/components/Projects";
 import Pricing from "@/components/Pricing";
 import Footer from "@/components/Footer";
+import LiveChat from "@/components/LiveChat";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <Projects />
       <Pricing />
       <Footer />
+      <LiveChat />
     </main>
   );
 }
