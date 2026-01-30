@@ -1,0 +1,51 @@
+[
+  {
+    "id": "1",
+    "title": "Website Profile Company",
+    "category": "Development",
+    "image": "/projects/webrb.png",
+    "description": "A full-stack Profile Company website.",
+    "tags": [
+      "PHP",
+      "XAMPP"
+    ],
+    "link": "https://rumahbumnbanjarmasin.com/"
+  },
+  {
+    "id": "2",
+    "title": "Short Movie Kurihing Desa CIndai Alus",
+    "category": "Video Editing",
+    "image": "",
+    "youtubeId": "08Jn9E-UoMQ",
+    "description": "Cinematic Short Movie Kurihing Bersama Desa Cindai Alus.",
+    "tags": [
+      "CapCut",
+      "After Effects"
+    ],
+    "link": "#"
+  },
+  {
+    "id": "3",
+    "title": "Product Photography",
+    "category": "Photography",
+    "image": "/api/placeholder/600/400",
+    "description": "High-end product shots for a luxury watch brand.",
+    "tags": [
+      "Lightroom",
+      "Studio Lighting"
+    ],
+    "link": "#"
+  },
+  {
+    "id": "4",
+    "title": "Corporate Brand Identity",
+    "category": "Design",
+    "image": "/api/placeholder/600/400",
+    "description": "Complete branding package including logo, guidelines, and stationery.",
+    "tags": [
+      "Illustrator",
+      "Photoshop"
+    ],
+    "link": "#"
+  }
+]

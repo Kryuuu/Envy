@@ -16,41 +16,21 @@ interface Project {
   link: string;
 }
 
-const projects: Project[] = [
-  {
-    title: "Profile Company",
-    category: "Development",
-    image: "/projects/webrb.png", 
-    description: "A full-stack Profile Company website.",
-    tags: ["PHP", "XAMPP"],
-    link: "https://rumahbumnbanjarmasin.com/"
-  },
-  {
-    title: "Kurihing Cine",
-    category: "Video Editing",
-    image: "", 
-    youtubeId: "08Jn9E-UoMQ", // YouTube Video ID
-    description: "Cinematic Short Movie Kurihing Bersama Desa Cindai Alus.",
-    tags: ["CapCut", "After Effects"],
-    link: "#"
-  },
-  {
-    title: "Product Photography",
-    category: "Photography",
-    image: "/api/placeholder/600/400",
-    description: "High-end product shots for a luxury watch brand.",
-    tags: ["Lightroom", "Studio Lighting"],
-    link: "#"
-  },
-  {
-    title: "Corporate Brand Identity",
-    category: "Design",
-    image: "/api/placeholder/600/400",
-    description: "Complete branding package including logo, guidelines, and stationery.",
-    tags: ["Illustrator", "Photoshop"],
-    link: "#"
-  },
-];
+import projectsData from "@/data/projects.json";
+
+interface Project {
+  id?: string;
+  title: string;
+  category: string;
+  image: string;
+  videoSrc?: string;
+  youtubeId?: string;
+  description: string;
+  tags: string[];
+  link: string;
+}
+
+const projects: Project[] = projectsData;
 
 export default function Projects() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
@@ -65,7 +45,15 @@ export default function Projects() {
            className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Featured Projects</h2>
-          <p className="text-gray-400">Selected works from my portfolio.</p>
+          <p className="text-gray-400 mb-8">Selected works from my portfolio.</p>
+          
+          <a 
+            href="/projects" 
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-all hover:scale-105 group"
+          >
+            See All Projects 
+            <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
+          </a>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
