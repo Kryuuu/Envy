@@ -1,10 +1,22 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ExternalLink, Github, PlayCircle, X } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
-const projects = [
+interface Project {
+  title: string;
+  category: string;
+  image: string;
+  videoSrc?: string;
+  youtubeId?: string;
+  description: string;
+  tags: string[];
+  link: string;
+}
+
+const projects: Project[] = [
   {
     title: "Profile Company",
     category: "Development",
@@ -14,11 +26,12 @@ const projects = [
     link: "https://rumahbumnbanjarmasin.com/"
   },
   {
-    title: "Cinematic Travel Vlog",
+    title: "Kurihing Cine",
     category: "Video Editing",
-    image: "/api/placeholder/600/400",
-    description: "Travel montage featuring seamless transitions and sound design.",
-    tags: ["Premiere Pro", "After Effects"],
+    image: "", 
+    youtubeId: "08Jn9E-UoMQ", // YouTube Video ID
+    description: "Cinematic Short Movie Kurihing Bersama Desa Cindai Alus.",
+    tags: ["CapCut", "After Effects"],
     link: "#"
   },
   {
@@ -40,6 +53,8 @@ const projects = [
 ];
 
 export default function Projects() {
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  
   return (
     <section id="projects" className="py-20 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,28 +79,60 @@ export default function Projects() {
               className="group relative rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-primary/50 transition-all hover:-translate-y-1"
             >
               <div className="aspect-video bg-gray-800 relative overflow-hidden group-hover:opacity-90 transition-opacity">
-                {/* Image Placeholder */}
-                {project.image.startsWith("http") || project.image.startsWith("/") ? (
-                   <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                
+                {/* YouTube Video Handling */}
+                {project.youtubeId ? (
+                    <div className="w-full h-full relative cursor-pointer" onClick={() => setSelectedVideo(`youtube:${project.youtubeId}`)}>
+                        <img 
+                            src={`https://img.youtube.com/vi/${project.youtubeId}/hqdefault.jpg`}
+                            alt={project.title}
+                            className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <PlayCircle className="w-16 h-16 text-white/90 group-hover:text-red-600 transition-colors hover:scale-110 transform duration-300" />
+                        </div>
+                    </div>
                 ) : (
-                   <div className="absolute inset-0 flex items-center justify-center text-gray-600 font-bold text-xl">
-                      {project.title} Preview
-                   </div>
+                    /* Local Video Handling */
+                    project.videoSrc ? (
+                        <div className="w-full h-full relative cursor-pointer" onClick={() => setSelectedVideo(project.videoSrc!)}>
+                            <video 
+                                src={project.videoSrc} 
+                                className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity"
+                                muted
+                                playsInline
+                                onMouseOver={event => (event.target as HTMLVideoElement).play()}
+                                onMouseOut={event => (event.target as HTMLVideoElement).pause()}
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <PlayCircle className="w-16 h-16 text-white/80 group-hover:text-primary transition-colors hover:scale-110 transform duration-300" />
+                            </div>
+                        </div>
+                    ) : ( 
+                        /* Image Handling */
+                        project.image.startsWith("http") || project.image.startsWith("/") ? (
+                           <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                        ) : (
+                           <div className="absolute inset-0 flex items-center justify-center text-gray-600 font-bold text-xl">
+                              {project.title} Preview
+                           </div>
+                        )
+                    )
                 )}
                 
-                {/* Overlay with Link Button */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                   {project.link !== "#" && (
-                    <a 
-                      href={project.link} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full font-medium transform translate-y-4 group-hover:translate-y-0 transition-all"
-                    >
-                      Visit Project <ExternalLink size={18} />
-                    </a>
-                   )}
-                </div>
+                {/* Overlay for non-video projects */}
+                {(!project.videoSrc && !project.youtubeId && project.link !== "#") && (
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <a 
+                          href={project.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full font-medium transform translate-y-4 group-hover:translate-y-0 transition-all"
+                        >
+                          Visit Project <ExternalLink size={18} />
+                        </a>
+                    </div>
+                )}
               </div>
               
               <div className="p-6 relative z-20">
@@ -94,10 +141,17 @@ export default function Projects() {
                     <span className="text-primary text-sm font-medium mb-2 block">{project.category}</span>
                     <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
                   </div>
-                  {project.link !== "#" && (
+                  {/* Link Icon Logic */}
+                  {project.link !== "#" && !project.videoSrc && !project.youtubeId && (
                     <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                       <ExternalLink size={20} />
                     </a>
+                  )}
+                  {/* Play Button Icon Logic */}
+                  {(project.videoSrc || project.youtubeId) && (
+                     <button onClick={() => setSelectedVideo(project.youtubeId ? `youtube:${project.youtubeId}` : project.videoSrc!)} className="text-gray-400 hover:text-primary transition-colors">
+                        <PlayCircle size={20} />
+                     </button>
                   )}
                 </div>
                 
@@ -115,6 +169,49 @@ export default function Projects() {
           ))}
         </div>
       </div>
+
+      <AnimatePresence>
+        {selectedVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+            onClick={() => setSelectedVideo(null)}
+          >
+            <motion.div
+               initial={{ scale: 0.9 }}
+               animate={{ scale: 1 }}
+               exit={{ scale: 0.9 }}
+               className="relative w-full max-w-5xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl border border-white/10"
+               onClick={(e) => e.stopPropagation()}
+            >
+                <button 
+                  onClick={() => setSelectedVideo(null)}
+                  className="absolute top-4 right-4 z-10 text-white/50 hover:text-white bg-black/50 hover:bg-black/80 rounded-full p-2 transition-all"
+                >
+                    <X size={24} />
+                </button>
+                
+                {selectedVideo.startsWith("youtube:") ? (
+                   <iframe 
+                     src={`https://www.youtube.com/embed/${selectedVideo.split(":")[1]}?autoplay=1`} 
+                     className="w-full h-full"
+                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                     allowFullScreen
+                   ></iframe>
+                ) : (
+                   <video 
+                     src={selectedVideo} 
+                     controls 
+                     autoPlay 
+                     className="w-full h-full"
+                   />
+                )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
