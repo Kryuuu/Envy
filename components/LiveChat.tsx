@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageSquare, X, Send, User, ChevronDown } from "lucide-react";
+import { MessageSquare, X, Send, User, ChevronDown, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 
@@ -49,14 +49,26 @@ export default function LiveChat() {
       const data = await response.json();
       
       setIsTyping(false);
-      const botReply = {
-        id: Date.now() + 1,
-        text: data.text || "Maaf, saya tidak mengerti.",
-        sender: "bot" as const,
-        time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-        type: 'text' as const
-      };
-      setMessages(prev => [...prev, botReply]);
+
+      if (response.status === 429 || data.text === "limit_reached") {
+         const limitMsg = {
+            id: Date.now() + 1,
+            text: "Mohon maaf, sistem AI sedang sibuk/limit. Silakan hubungi admin langsung untuk respon cepat.",
+            sender: "bot" as const,
+            time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+            type: 'contact' as const
+         };
+         setMessages(prev => [...prev, limitMsg]);
+      } else {
+         const botReply = {
+            id: Date.now() + 1,
+            text: data.text || "Maaf, saya tidak mengerti.",
+            sender: "bot" as const,
+            time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+            type: 'text' as const
+         };
+         setMessages(prev => [...prev, botReply]);
+      }
 
     } catch (error) {
       console.error(error);
@@ -107,25 +119,47 @@ export default function LiveChat() {
                
                {messages.map((msg) => (
                  <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${
-                       msg.sender === 'user' 
-                         ? 'bg-primary text-white rounded-br-none' 
-                         : 'bg-white/10 text-gray-200 rounded-bl-none'
-                    }`}>
-                       <div className="prose prose-sm max-w-none dark:prose-invert prose-p:my-1 prose-ul:my-1 prose-li:my-0 text-left">
-                         <ReactMarkdown
-                           components={{
-                             p: ({node, ...props}) => <p className="mb-1 last:mb-0" {...props} />,
-                             ul: ({node, ...props}) => <ul className="list-disc ml-4 mb-2" {...props} />,
-                             ol: ({node, ...props}) => <ol className="list-decimal ml-4 mb-2" {...props} />,
-                             li: ({node, ...props}) => <li className="mb-0.5" {...props} />,
-                             strong: ({node, ...props}) => <strong className="font-bold text-yellow-300" {...props} />,
-                             a: ({node, ...props}) => <a className="underline hover:text-blue-300" target="_blank" rel="noopener noreferrer" {...props} />
-                           }}
-                         >
-                           {msg.text}
-                         </ReactMarkdown>
-                       </div>
+                     <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${
+                        msg.sender === 'user' 
+                          ? 'bg-primary text-white rounded-br-none' 
+                          : 'bg-white/10 text-gray-200 rounded-bl-none'
+                     }`}>
+                        {msg.type === 'contact' ? (
+                          <div className="flex flex-col gap-2">
+                            <p className="mb-2">{msg.text}</p>
+                            <div className="flex gap-2">
+                              <a 
+                                href="https://wa.me/6281913715220?text=Halo,%20saya%20ingin%20tanya%20jasa%20Envy" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded-lg text-xs transition-colors"
+                              >
+                                <MessageSquare size={14} /> WhatsApp
+                              </a>
+                              <a 
+                                href="mailto:ahmadshawity@gmail.com" 
+                                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded-lg text-xs transition-colors"
+                              >
+                                <Mail size={14} /> Email
+                              </a>
+                            </div>
+                          </div>
+                        ) : (
+                           <div className="prose prose-sm max-w-none dark:prose-invert prose-p:my-1 prose-ul:my-1 prose-li:my-0 text-left">
+                             <ReactMarkdown
+                               components={{
+                                 p: ({node, ...props}) => <p className="mb-1 last:mb-0" {...props} />,
+                                 ul: ({node, ...props}) => <ul className="list-disc ml-4 mb-2" {...props} />,
+                                 ol: ({node, ...props}) => <ol className="list-decimal ml-4 mb-2" {...props} />,
+                                 li: ({node, ...props}) => <li className="mb-0.5" {...props} />,
+                                 strong: ({node, ...props}) => <strong className="font-bold text-yellow-300" {...props} />,
+                                 a: ({node, ...props}) => <a className="underline hover:text-blue-300" target="_blank" rel="noopener noreferrer" {...props} />
+                               }}
+                             >
+                               {msg.text}
+                             </ReactMarkdown>
+                           </div>
+                        )}
                        
                        <p className={`text-[10px] mt-1 text-right ${msg.sender === 'user' ? 'text-white/70' : 'text-gray-500'}`}>
                          {msg.time}

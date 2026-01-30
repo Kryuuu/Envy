@@ -36,6 +36,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ text });
   } catch (error: any) {
     console.error("Gemini API Error FULL:", error);
+    
+    // Check for quota exceeded or rate limit errors
+    const errorMessage = error.body || error.message || JSON.stringify(error);
+    if (
+      errorMessage.includes("429") || 
+      errorMessage.includes("Quota exceeded") || 
+      errorMessage.includes("RESOURCE_EXHAUSTED")
+    ) {
+      return NextResponse.json(
+        { text: "limit_reached" }, // Special signal for frontend
+        { status: 429 }
+      );
+    }
+
     return NextResponse.json(
       { text: `Maaf, ada gangguan teknis. Error: ${error.message || "Unknown error"}` },
       { status: 500 }
