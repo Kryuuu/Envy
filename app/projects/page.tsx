@@ -1,25 +1,15 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Github, PlayCircle, X } from "lucide-react";
-import Image from "next/image";
+import { ExternalLink, PlayCircle, X, ArrowLeft, Image as ImageIcon } from "lucide-react";
 import { useState } from "react";
-
-interface Project {
-  title: string;
-  category: string;
-  image: string;
-  videoSrc?: string;
-  youtubeId?: string;
-  description: string;
-  tags: string[];
-  link: string;
-}
-
+import Link from "next/link";
 import projectsData from "@/data/projects.json";
 
+
+
 interface Project {
-  id?: string;
+  id: string;
   title: string;
   category: string;
   image: string;
@@ -30,45 +20,48 @@ interface Project {
   link: string;
 }
 
-const projects: Project[] = projectsData;
+const projects: Project[] = projectsData as unknown as Project[];
 
-export default function Projects() {
+export default function AllProjects() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-  
-  return (
-    <section id="projects" className="py-20 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Featured Projects</h2>
-          <p className="text-gray-400 mb-8">Selected works from my portfolio.</p>
-          
-          <a 
-            href="/projects" 
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-all hover:scale-105 group"
-          >
-            See All Projects 
-            <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
-          </a>
-        </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+  return (
+    <div className="min-h-screen bg-gray-950 pt-24 pb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-16 relative">
+           <Link 
+             href="/" 
+             className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-white/5 hover:bg-white/10 rounded-full transition-colors hidden md:block"
+           >
+             <ArrowLeft className="text-white" />
+           </Link>
+           <motion.h1 
+             initial={{ opacity: 0, y: -20 }}
+             animate={{ opacity: 1, y: 0 }}
+             className="text-4xl md:text-6xl font-bold text-white mb-4"
+           >
+             All Projects
+           </motion.h1>
+           <p className="text-gray-400 max-w-2xl mx-auto">
+             Explore my complete portfolio of development, design, and creative works.
+           </p>
+        </div>
+
+        {/* Projects Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <motion.div
-              key={index}
+              key={project.id || index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="group relative rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-primary/50 transition-all hover:-translate-y-1"
+              transition={{ delay: index * 0.05 }}
+              className="group relative rounded-xl overflow-hidden bg-white/5 border border-white/10 hover:border-primary/50 transition-all hover:-translate-y-1 h-full flex flex-col"
             >
               <div className="aspect-video bg-gray-800 relative overflow-hidden group-hover:opacity-90 transition-opacity">
                 
-                {/* YouTube Video Handling */}
+                {/* Thumbnail Logic */}
                 {project.youtubeId ? (
                     <div className="w-full h-full relative cursor-pointer" onClick={() => setSelectedVideo(`youtube:${project.youtubeId}`)}>
                         <img 
@@ -80,35 +73,29 @@ export default function Projects() {
                             <PlayCircle className="w-16 h-16 text-white/90 group-hover:text-red-600 transition-colors hover:scale-110 transform duration-300" />
                         </div>
                     </div>
-                ) : (
-                    /* Local Video Handling */
-                    project.videoSrc ? (
-                        <div className="w-full h-full relative cursor-pointer" onClick={() => setSelectedVideo(project.videoSrc!)}>
-                            <video 
-                                src={project.videoSrc} 
-                                className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity"
-                                muted
-                                playsInline
-                                onMouseOver={event => (event.target as HTMLVideoElement).play()}
-                                onMouseOut={event => (event.target as HTMLVideoElement).pause()}
-                            />
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <PlayCircle className="w-16 h-16 text-white/80 group-hover:text-primary transition-colors hover:scale-110 transform duration-300" />
-                            </div>
+                ) : project.videoSrc ? (
+                    <div className="w-full h-full relative cursor-pointer" onClick={() => setSelectedVideo(project.videoSrc!)}>
+                        <video 
+                            src={project.videoSrc} 
+                            className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity"
+                            muted
+                            playsInline
+                            onMouseOver={event => (event.target as HTMLVideoElement).play()}
+                            onMouseOut={event => (event.target as HTMLVideoElement).pause()}
+                        />
+                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <PlayCircle className="w-16 h-16 text-white/80 group-hover:text-primary transition-colors hover:scale-110 transform duration-300" />
                         </div>
-                    ) : ( 
-                        /* Image Handling */
-                        project.image.startsWith("http") || project.image.startsWith("/") ? (
-                           <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
-                        ) : (
-                           <div className="absolute inset-0 flex items-center justify-center text-gray-600 font-bold text-xl">
-                              {project.title} Preview
-                           </div>
-                        )
-                    )
+                    </div>
+                ) : project.image && (project.image.startsWith("http") || project.image.startsWith("/")) ? (
+                   <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-white/5 text-white/20">
+                        <ImageIcon size={48} />
+                    </div>
                 )}
                 
-                {/* Overlay for non-video projects */}
+                {/* Overlay Link */}
                 {(!project.videoSrc && !project.youtubeId && project.link !== "#") && (
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <a 
@@ -123,19 +110,19 @@ export default function Projects() {
                 )}
               </div>
               
-              <div className="p-6 relative z-20">
+              <div className="p-6 flex-1 flex flex-col">
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <span className="text-primary text-sm font-medium mb-2 block">{project.category}</span>
-                    <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
+                    <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
                   </div>
-                  {/* Link Icon Logic */}
+                  
                   {project.link !== "#" && !project.videoSrc && !project.youtubeId && (
                     <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                       <ExternalLink size={20} />
                     </a>
                   )}
-                  {/* Play Button Icon Logic */}
+                  
                   {(project.videoSrc || project.youtubeId) && (
                      <button onClick={() => setSelectedVideo(project.youtubeId ? `youtube:${project.youtubeId}` : project.videoSrc!)} className="text-gray-400 hover:text-primary transition-colors">
                         <PlayCircle size={20} />
@@ -143,9 +130,9 @@ export default function Projects() {
                   )}
                 </div>
                 
-                <p className="text-gray-400 mb-6">{project.description}</p>
+                <p className="text-gray-400 mb-6 text-sm flex-1">{project.description}</p>
                 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mt-auto">
                   {project.tags.map((tag) => (
                     <span key={tag} className="px-3 py-1 rounded-full bg-white/10 text-xs text-white">
                       {tag}
@@ -158,6 +145,7 @@ export default function Projects() {
         </div>
       </div>
 
+      {/* Video Modal */}
       <AnimatePresence>
         {selectedVideo && (
           <motion.div
@@ -188,7 +176,7 @@ export default function Projects() {
                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                      allowFullScreen
                    ></iframe>
-                ) : ( 
+                ) : (
                    <video 
                      src={selectedVideo} 
                      controls 
@@ -200,6 +188,6 @@ export default function Projects() {
           </motion.div>
         )}
       </AnimatePresence>
-    </section>
+    </div>
   );
 }
