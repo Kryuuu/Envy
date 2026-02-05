@@ -84,7 +84,7 @@ export default function ChessGame() {
   // Game Logic
   function makeRandomMove() {
     const possibleMoves = game.moves();
-    if (game.game_over() || game.in_draw() || possibleMoves.length === 0) {
+    if (game.isGameOver() || game.isDraw() || possibleMoves.length === 0) {
        checkGameOver();
        return;
     }
@@ -125,7 +125,7 @@ export default function ChessGame() {
         }
 
         // AI Response
-        if (gameMode === "ai" && !gameCopy.game_over()) {
+        if (gameMode === "ai" && !gameCopy.isGameOver()) {
             makeRandomMove();
         }
         
