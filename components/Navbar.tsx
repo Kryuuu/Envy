@@ -5,16 +5,20 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import { usePathname } from "next/navigation";
+
 const navItems = [
-  { name: "About", href: "#about" },
-  { name: "Skills", href: "#skills" },
-  { name: "Services", href: "#services" },
-  { name: "Projects", href: "#projects" },
-  { name: "Pricing", href: "#pricing" },
+  { name: "About", href: "/#about" },
+  { name: "Skills", href: "/#skills" },
+  { name: "Services", href: "/#services" },
+  { name: "Projects", href: "/#projects" },
+  { name: "Pricing", href: "/#pricing" },
+  { name: "Games", href: "/games" },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-md border-b border-white/10">
@@ -33,7 +37,11 @@ export default function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300"
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
+                    pathname === item.href 
+                    ? "text-blue-400 bg-white/5" 
+                    : "text-gray-300 hover:text-white hover:bg-white/10"
+                  }`}
                 >
                   {item.name}
                 </Link>
@@ -68,7 +76,11 @@ export default function Navbar() {
                   key={item.name}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10"
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    pathname === item.href
+                      ? "text-blue-400 bg-white/5"
+                      : "text-gray-300 hover:text-white hover:bg-white/10"
+                  }`}
                 >
                   {item.name}
                 </Link>
