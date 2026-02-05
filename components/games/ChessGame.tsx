@@ -30,7 +30,7 @@ export default function ChessGame() {
                 const { Peer } = await import("peerjs");
                 const peer = new Peer();
                 
-                peer.on("open", (id) => {
+                peer.on("open", (id: string) => {
                     setPeerId(id);
                 });
 
@@ -39,7 +39,7 @@ export default function ChessGame() {
                     setupConnection(connection);
                 });
                 
-                peer.on("error", (err) => {
+                peer.on("error", (err: any) => {
                     console.error("PeerJS Error:", err);
                     alert("Connection Error. Please refresh.");
                 });
