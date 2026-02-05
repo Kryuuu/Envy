@@ -7,7 +7,7 @@ import TicTacToe from "../../components/games/TicTacToe";
 import MemoryMatch from "../../components/games/MemoryMatch";
 import RPS from "../../components/games/RPS";
 import WhackAMole from "../../components/games/WhackAMole";
-import ChessGame from "../../components/games/ChessGame";
+
 import Roulette from "../../components/games/Roulette";
 import Blackjack from "../../components/games/Blackjack";
 
@@ -15,7 +15,7 @@ const GAMES = [
   { id: "snake", title: "Snake", icon: "🐍", description: "Eat food, grow longer, don't hit the wall!", color: "from-green-500 to-emerald-700" },
   { id: "blackjack", title: "Blackjack", icon: "🃏", description: "Hit 21 or beat the dealer!", color: "from-slate-800 to-slate-950" },
   { id: "roulette", title: "Roulette", icon: "🎰", description: "Spin the wheel and test your luck!", color: "from-yellow-600 to-red-800" },
-  { id: "chess", title: "Chess", icon: "♟️", description: "Strategic warfare. PvP or vs AI.", color: "from-gray-600 to-slate-800" },
+
   { id: "tictactoe", title: "Tic Tac Toe", icon: "❌", description: "Classic 3x3 strategy game for 2 players.", color: "from-blue-500 to-indigo-700" },
   { id: "memory", title: "Memory Match", icon: "🃏", description: "Flip cards and find matching pairs.", color: "from-purple-500 to-pink-700" },
   { id: "rps", title: "Rock Paper Scissors", icon: "✊", description: "Beat the CPU in this luck-based classic.", color: "from-orange-500 to-red-700" },
@@ -97,7 +97,7 @@ export default function ArcadePage() {
                  {selectedGame === "snake" && <Snake />}
                  {selectedGame === "roulette" && <Roulette />}
                  {selectedGame === "blackjack" && <Blackjack />}
-                 {selectedGame === "chess" && <ChessGame />}
+
                  {selectedGame === "tictactoe" && <TicTacToe />}
                  {selectedGame === "memory" && <MemoryMatch />}
                  {selectedGame === "rps" && <RPS />}
