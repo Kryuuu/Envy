@@ -85,41 +85,41 @@ export default function ChessGame() {
   // AI Turn Handling
   useEffect(() => {
     if (gameMode === "ai" && game.turn() === "b" && !game.isGameOver()) {
+       // Add a small delay for better UX (so it feels like "thinking" and doesn't snap instantly)
        const timer = setTimeout(() => {
-           makeRandomMove();
-       }, 500);
+           makeAiMove();
+       }, 1000); 
        return () => clearTimeout(timer);
     }
   }, [game, gameMode]);
 
-  function makeRandomMove() {
-    const possibleMoves = game.moves();
-    if (game.isGameOver() || game.isDraw() || possibleMoves.length === 0) {
-       checkGameOver();
-       return;
-    }
-    // Simple improvement: Capture if possible, otherwise random
-    // This makes it less "broken" than pure random
-    // Note: moves() returns strings (SAN) by default. formatting needed for details?
-    // Let's stick to standard moves({ verbose: true }) to see captures
+  function makeAiMove() {
+     // Safety check in case component unmounted or state changed rapidly
+     if (game.isGameOver() || game.isDraw() || game.turn() !== 'b') return;
+
+    const possibleMoves = game.moves({ verbose: true });
+    if (possibleMoves.length === 0) return;
+
+    let move;
     
-    // We need verbose moves to filter captures
-    const verboseMoves = game.moves({ verbose: true });
-    
-    let move = verboseMoves[Math.floor(Math.random() * verboseMoves.length)]; // Default random
-    
-    // Try to find a capture
-    const captures = verboseMoves.filter(m => m.captured);
+    // 1. Try to find a capture (Simple Heuristic)
+    const captures = possibleMoves.filter((m: any) => m.captured);
     if (captures.length > 0) {
-        // Pick random capture
+        // Prepare to sort captures by value if we wanted 'smarter' AI
+        // For now, random capture is better than purely random move
         move = captures[Math.floor(Math.random() * captures.length)];
+    } else {
+        // 2. Otherwise random move
+        move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
     }
 
     const gameCopy = new Chess(game.fen());
     try {
-        gameCopy.move(move.san); // Use SAN for move()
-        setGame(gameCopy);
-        updateGameState(gameCopy);
+        const result = gameCopy.move(move.san); 
+        if (result) {
+            setGame(gameCopy);
+            updateGameState(gameCopy);
+        }
     } catch (e) {
         console.error("AI Move Failed", e);
     }
@@ -134,7 +134,7 @@ export default function ChessGame() {
         if (!isHost && game.turn() === 'w') return false; 
     }
 
-    // AI Turn Guard
+    // AI Turn Guard - Prevent user from moving for AI
     if (gameMode === "ai" && game.turn() === "b") return false;
 
     const gameCopy = new Chess(game.fen());
@@ -154,8 +154,6 @@ export default function ChessGame() {
         if (gameMode === "online" && conn) {
             conn.send({ type: "move", fen: gameCopy.fen() });
         }
-        
-        // AI Trigger handled by useEffect now
         
         return true;
     } catch (error) {
@@ -332,10 +330,15 @@ export default function ChessGame() {
             {/* Left/Top Sidebar (Opponent Info) */}
             <div className="hidden lg:flex flex-col gap-4 w-64 shrink-0">
                  {/* Opponent Profile */}
-                 <div className="bg-[#262522] p-4 rounded-lg flex items-center gap-3 border-b-4 border-gray-700">
+                <div className="bg-[#262522] p-4 rounded-lg flex items-center gap-3 border-b-4 border-gray-700">
                      <div className="w-10 h-10 bg-gray-600 rounded flex items-center justify-center text-xl">👤</div>
                      <div>
-                         <div className="font-bold text-gray-200">{gameMode === 'ai' ? 'Stockfish (AI)' : 'Opponent'}</div>
+                         <div className="font-bold text-gray-200">
+                              {gameMode === 'ai' ? 'Stockfish (AI)' : 'Opponent'}
+                              {gameMode === 'ai' && game.turn() === 'b' && !winner && (
+                                  <span className="ml-2 text-xs text-yellow-500 animate-pulse">Thinking...</span>
+                              )}
+                         </div>
                          <div className="text-xs text-gray-500">Rating: 800</div>
                      </div>
                  </div>
