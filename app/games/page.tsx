@@ -7,7 +7,7 @@ import TicTacToe from "../../components/games/TicTacToe";
 import MemoryMatch from "../../components/games/MemoryMatch";
 import RPS from "../../components/games/RPS";
 import WhackAMole from "../../components/games/WhackAMole";
-// import ChessGame from "../../components/games/ChessGame";
+import ChessGame from "../../components/games/ChessGame";
 import Roulette from "../../components/games/Roulette";
 import Blackjack from "../../components/games/Blackjack";
 
@@ -97,7 +97,7 @@ export default function ArcadePage() {
                  {selectedGame === "snake" && <Snake />}
                  {selectedGame === "roulette" && <Roulette />}
                  {selectedGame === "blackjack" && <Blackjack />}
-                 {/* {selectedGame === "chess" && <ChessGame />} */}
+                 {selectedGame === "chess" && <ChessGame />}
                  {selectedGame === "tictactoe" && <TicTacToe />}
                  {selectedGame === "memory" && <MemoryMatch />}
                  {selectedGame === "rps" && <RPS />}
