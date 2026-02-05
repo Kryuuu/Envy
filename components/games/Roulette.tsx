@@ -60,19 +60,36 @@ export default function Roulette() {
     const winningNumber = WHEEL_NUMBERS[randomIndex];
     
     // Spin Logic
-    const segmentAngle = 360 / WHEEL_NUMBERS.length;
-    const targetAngle = 360 - (randomIndex * segmentAngle); 
-    const extraSpins = 360 * (5 + Math.floor(Math.random() * 3)); // 5-8 spins
-    const finalRotation = rotationRef.current + extraSpins + targetAngle;
+    const segmentSize = 360 / WHEEL_NUMBERS.length;
+    // The number is rendered at: (index * segmentSize) + (segmentSize / 2)
+    // To bring this to the top (0deg), we need to rotate -angle.
+    const numberCenterAngle = (randomIndex * segmentSize) + (segmentSize / 2);
     
-    // Add jitter slightly to simulate ball bounce (optional visual complexity)
+    // Calculate where we want to land (absolute 0-360)
+    // We want (Rotation + CenterAngle) % 360 == 0
+    // So targetAbs = (360 - numberCenterAngle) % 360
+    const targetAbs = (360 - numberCenterAngle) % 360;
+    
+    // Calculate delta from current position
+    const currentAbs = rotationRef.current % 360;
+    let delta = (targetAbs - currentAbs + 360) % 360;
+    
+    // Add jitter: Random offset within +/- 40% of segment size to be safe
+    // This makes it land not perfectly in center but clearly on the number
+    const jitter = (Math.random() - 0.5) * (segmentSize * 0.8);
+    delta += jitter;
+
+    // Minimum 5 full spins for effect
+    const extraSpins = 360 * (5 + Math.floor(Math.random() * 3));
+    
+    const finalRotation = rotationRef.current + delta + extraSpins;
     
     await controls.start({
         rotate: finalRotation,
-        transition: { duration: 5, ease: [0.3, 0, 0.2, 1] } // Ease-out cubic
+        transition: { duration: 6, ease: [0.2, 0, 0, 1] } // Custom easing implementation "OutQuint" feel
     });
     
-    rotationRef.current = finalRotation % 360; 
+    rotationRef.current = finalRotation; // Keep accumulating to prevent snapping back
     
     handleResult(winningNumber);
     setSpinning(false);
