@@ -113,15 +113,24 @@ export default function ChessGame() {
         move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
     }
 
-    const gameCopy = new Chess(game.fen());
+    const gameCopy = new Chess();
     try {
+        gameCopy.loadPgn(game.pgn());
         const result = gameCopy.move(move.san); 
         if (result) {
             setGame(gameCopy);
             updateGameState(gameCopy);
         }
     } catch (e) {
-        console.error("AI Move Failed", e);
+        // Fallback if PGN fails (e.g. weird state), try FEN but history will be lost on this turn
+        try {
+             const fenCopy = new Chess(game.fen());
+             fenCopy.move(move.san);
+             setGame(fenCopy);
+             updateGameState(fenCopy);
+        } catch(err) {
+             console.error("AI Move Failed", err);
+        }
     }
   }
 
@@ -137,8 +146,10 @@ export default function ChessGame() {
     // AI Turn Guard - Prevent user from moving for AI
     if (gameMode === "ai" && game.turn() === "b") return false;
 
-    const gameCopy = new Chess(game.fen());
+    // Clone via PGN to preserve history
+    const gameCopy = new Chess();
     try {
+        gameCopy.loadPgn(game.pgn());
         const move = gameCopy.move({
             from: sourceSquare,
             to: targetSquare,
@@ -152,7 +163,10 @@ export default function ChessGame() {
         
         // Broadcast Move
         if (gameMode === "online" && conn) {
-            conn.send({ type: "move", fen: gameCopy.fen() });
+            // For online, sending FEN is still best for sync, but history might be lost on peer unless we send PGN
+            // For now, let's keep sending FEN as that's what the online protocol expects based on previous code
+            // The peer will just see the board state updates.
+            conn.send({ type: "move", fen: gameCopy.fen() }); 
         }
         
         return true;
