@@ -281,7 +281,7 @@ export default function Blackjack() {
 
 // Subcomponents
 
-const ActionButton = ({ onClick, color, label, icon }: any) => (
+const ActionButton = ({ onClick, color, label, icon }: { onClick: () => void, color: string, label: string, icon: string }) => (
     <button 
         onClick={onClick}
         className={`${color} w-32 py-4 rounded-xl flex flex-col items-center justify-center shadow-lg border-b-4 border-black/20 hover:brightness-110 active:border-b-0 active:translate-y-1 transition-all group`}
@@ -291,7 +291,7 @@ const ActionButton = ({ onClick, color, label, icon }: any) => (
     </button>
 );
 
-const ResultBanner = ({ text, color }: any) => (
+const ResultBanner = ({ text, color }: { text: string, color: string }) => (
     <motion.div 
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}

@@ -268,7 +268,7 @@ export default function Roulette() {
   );
 }
 
-function BetButton({ label, color, onClick, betAmount, subtitle, fullHeight }: any) {
+function BetButton({ label, color, onClick, betAmount, subtitle, fullHeight }: { label: string, color: string, onClick: () => void, betAmount?: number, subtitle?: string, fullHeight?: boolean }) {
     const bg = color === "red" ? "bg-red-700 hover:bg-red-600" : 
                color === "black" ? "bg-zinc-800 hover:bg-zinc-700" : 
                color === "green" ? "bg-green-700 hover:bg-green-600" :
