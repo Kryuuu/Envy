@@ -190,7 +190,7 @@ export default function ChessGame() {
       const pieceValues: Record<string, number> = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
       const board = new Chess(fen).board();
       let w = 0, b = 0;
-      board.forEach(row => row.forEach(piece => {
+      board.forEach((row: any[]) => row.forEach((piece: { type: string; color: string } | null) => {
           if (!piece) return;
           if (piece.color === 'w') w += pieceValues[piece.type];
           else b += pieceValues[piece.type];
