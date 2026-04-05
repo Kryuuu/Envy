@@ -1,5 +1,19 @@
 [
   {
+    "id": "0",
+    "title": "WarungKu — Smart UMKM Food Platform",
+    "category": "Development",
+    "image": "/projects/warungku.png",
+    "description": "Platform manajemen UMKM kuliner berbasis web dengan fitur kasir digital, manajemen menu, laporan penjualan real-time, dan sistem pemesanan online.",
+    "tags": [
+      "Next.js",
+      "Laravel",
+      "MySQL",
+      "Tailwind CSS"
+    ],
+    "link": "https://warung-gold.vercel.app/"
+  },
+  {
     "id": "1",
     "title": "Website Profile Company",
     "category": "Development",
