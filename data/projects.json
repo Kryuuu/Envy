@@ -39,27 +39,44 @@
     "link": "#"
   },
   {
-    "id": "3",
-    "title": "Product Photography",
-    "category": "Photography",
-    "image": "/api/placeholder/600/400",
-    "description": "High-end product shots for a luxury watch brand.",
+    "id": "5",
+    "title": "BEM FTI UNISKA — Organization Edit",
+    "category": "Video Editing",
+    "image": "/projects/tiktok_bem.jpg",
+    "tiktokId": "7532513783571287317",
+    "description": "Video editing untuk organisasi BEM FTI UNISKA Banjarmasin — Kabinet Tomodachi.",
     "tags": [
-      "Lightroom",
-      "Studio Lighting"
+      "After Effects",
+      "TikTok"
     ],
-    "link": "#"
+    "link": "https://www.tiktok.com/@envy.ly_/video/7532513783571287317"
   },
   {
-    "id": "4",
-    "title": "Corporate Brand Identity",
-    "category": "Design",
-    "image": "/api/placeholder/600/400",
-    "description": "Complete branding package including logo, guidelines, and stationery.",
+    "id": "6",
+    "title": "AMV Edit — NVNTY",
+    "category": "Video Editing",
+    "image": "/projects/tiktok_nvnty.jpg",
+    "tiktokId": "7399276728356490501",
+    "description": "AMV (Anime Music Video) edit dengan style cinematic dan smooth transitions.",
     "tags": [
-      "Illustrator",
-      "Photoshop"
+      "After Effects",
+      "AMV",
+      "TikTok"
     ],
-    "link": "#"
+    "link": "https://www.tiktok.com/@envy.ly_/video/7399276728356490501"
+  },
+  {
+    "id": "7",
+    "title": "AMV Holo Edit — After Effects",
+    "category": "Video Editing",
+    "image": "/projects/tiktok_holo.jpg",
+    "tiktokId": "7244589182205693185",
+    "description": "Holo-style AMV edit dengan visual effects menggunakan Adobe After Effects.",
+    "tags": [
+      "After Effects",
+      "AMV",
+      "TikTok"
+    ],
+    "link": "https://www.tiktok.com/@envy.ly_/video/7244589182205693185"
   }
 ]

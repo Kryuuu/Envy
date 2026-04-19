@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Github, PlayCircle, X } from "lucide-react";
+import { ExternalLink, Github, PlayCircle, X, Music2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -11,6 +11,7 @@ interface Project {
   image: string;
   videoSrc?: string;
   youtubeId?: string;
+  tiktokId?: string;
   description: string;
   tags: string[];
   link: string;
@@ -25,6 +26,7 @@ interface Project {
   image: string;
   videoSrc?: string;
   youtubeId?: string;
+  tiktokId?: string;
   description: string;
   tags: string[];
   link: string;
@@ -80,6 +82,25 @@ export default function Projects() {
                             <PlayCircle className="w-16 h-16 text-white/90 group-hover:text-red-600 transition-colors hover:scale-110 transform duration-300" />
                         </div>
                     </div>
+                ) : project.tiktokId ? (
+                    /* TikTok Video Handling */
+                    <div className="w-full h-full relative cursor-pointer" onClick={() => setSelectedVideo(`tiktok:${project.tiktokId}`)}>
+                        <img 
+                            src={project.image || ""}
+                            alt={project.title}
+                            className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <PlayCircle className="w-16 h-16 text-white/90 group-hover:text-[#fe2c55] transition-colors hover:scale-110 transform duration-300" />
+                        </div>
+                        <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/50 rounded-full px-2.5 py-1">
+                            <svg viewBox="0 0 48 48" className="w-4 h-4" fill="none">
+                                <path d="M34.1451 13.3456C32.7321 12.1858 31.7891 10.4804 31.7891 8.5625H27.1016V28.2969C27.1016 30.6484 25.1953 32.5547 22.8438 32.5547C20.4922 32.5547 18.5859 30.6484 18.5859 28.2969C18.5859 25.9453 20.4922 24.0391 22.8438 24.0391C23.3203 24.0391 23.7773 24.1172 24.2031 24.2578V19.5078C23.7578 19.4453 23.3047 19.4062 22.8438 19.4062C17.9375 19.4062 13.9531 23.3906 13.9531 28.2969C13.9531 33.2031 17.9375 37.1875 22.8438 37.1875C27.75 37.1875 31.7344 33.2031 31.7344 28.2969V18.1562C33.6172 19.5547 35.9375 20.375 38.4375 20.375V15.7422C36.8438 15.7422 35.3672 15.1953 34.1451 13.3456Z" fill="white"/>
+                            </svg>
+                            <span className="text-white/80 text-xs font-medium">TikTok</span>
+                        </div>
+                    </div>
                 ) : (
                     /* Local Video Handling */
                     project.videoSrc ? (
@@ -109,7 +130,7 @@ export default function Projects() {
                 )}
                 
                 {/* Overlay for non-video projects */}
-                {(!project.videoSrc && !project.youtubeId && project.link !== "#") && (
+                {(!project.videoSrc && !project.youtubeId && !project.tiktokId && project.link !== "#") && (
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <a 
                           href={project.link} 
@@ -130,14 +151,14 @@ export default function Projects() {
                     <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
                   </div>
                   {/* Link Icon Logic */}
-                  {project.link !== "#" && !project.videoSrc && !project.youtubeId && (
+                  {project.link !== "#" && !project.videoSrc && !project.youtubeId && !project.tiktokId && (
                     <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                       <ExternalLink size={20} />
                     </a>
                   )}
                   {/* Play Button Icon Logic */}
-                  {(project.videoSrc || project.youtubeId) && (
-                     <button onClick={() => setSelectedVideo(project.youtubeId ? `youtube:${project.youtubeId}` : project.videoSrc!)} className="text-gray-400 hover:text-primary transition-colors">
+                  {(project.videoSrc || project.youtubeId || project.tiktokId) && (
+                     <button onClick={() => setSelectedVideo(project.tiktokId ? `tiktok:${project.tiktokId}` : project.youtubeId ? `youtube:${project.youtubeId}` : project.videoSrc!)} className="text-gray-400 hover:text-primary transition-colors">
                         <PlayCircle size={20} />
                      </button>
                   )}
@@ -171,7 +192,11 @@ export default function Projects() {
                initial={{ scale: 0.9 }}
                animate={{ scale: 1 }}
                exit={{ scale: 0.9 }}
-               className="relative w-full max-w-5xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl border border-white/10"
+               className={`relative bg-black rounded-xl overflow-hidden shadow-2xl border border-white/10 ${
+                 selectedVideo.startsWith("tiktok:") 
+                   ? "w-full max-w-sm aspect-[9/16]" 
+                   : "w-full max-w-5xl aspect-video"
+               }`}
                onClick={(e) => e.stopPropagation()}
             >
                 <button 
@@ -186,6 +211,13 @@ export default function Projects() {
                      src={`https://www.youtube.com/embed/${selectedVideo.split(":")[1]}?autoplay=1`} 
                      className="w-full h-full"
                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                     allowFullScreen
+                   ></iframe>
+                ) : selectedVideo.startsWith("tiktok:") ? (
+                   <iframe 
+                     src={`https://www.tiktok.com/player/v1/${selectedVideo.split(":")[1]}?autoplay=1&music_info=1&description=1`} 
+                     className="w-full h-full"
+                     allow="accelerometer; autoplay; encrypted-media; gyroscope" 
                      allowFullScreen
                    ></iframe>
                 ) : ( 
