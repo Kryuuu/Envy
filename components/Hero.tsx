@@ -26,8 +26,31 @@ export default function Hero() {
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden pt-16">
       {/* Background decoration */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px]" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-[128px]" />
+      <motion.div 
+        animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+        }}
+        className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/30 rounded-full blur-[128px]" 
+      />
+      <motion.div 
+        animate={{ 
+            scale: [1, 1.3, 1],
+            opacity: [0.3, 0.7, 0.3],
+        }}
+        transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+        }}
+        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/30 rounded-full blur-[128px]" 
+      />
 
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <motion.p

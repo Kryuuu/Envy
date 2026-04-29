@@ -68,7 +68,7 @@ export default function AllProjects() {
                 
                 {/* Front Side */}
                 <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] rounded-xl overflow-hidden bg-white/5 border border-white/10 flex flex-col">
-                   <div className="w-full h-full relative overflow-hidden">
+                   <div className="aspect-video w-full relative overflow-hidden bg-black/50 border-b border-white/10">
                       {project.youtubeId ? (
                           <img 
                               src={`https://img.youtube.com/vi/${project.youtubeId}/hqdefault.jpg`}
@@ -82,11 +82,11 @@ export default function AllProjects() {
                                   alt={project.title}
                                   className="w-full h-full object-cover"
                               />
-                              <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/50 rounded-full px-2.5 py-1 z-10">
-                                  <svg viewBox="0 0 48 48" className="w-4 h-4" fill="none">
+                              <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm rounded-full px-2.5 py-1 z-10 border border-white/10">
+                                  <svg viewBox="0 0 48 48" className="w-3.5 h-3.5" fill="none">
                                       <path d="M34.1451 13.3456C32.7321 12.1858 31.7891 10.4804 31.7891 8.5625H27.1016V28.2969C27.1016 30.6484 25.1953 32.5547 22.8438 32.5547C20.4922 32.5547 18.5859 30.6484 18.5859 28.2969C18.5859 25.9453 20.4922 24.0391 22.8438 24.0391C23.3203 24.0391 23.7773 24.1172 24.2031 24.2578V19.5078C23.7578 19.4453 23.3047 19.4062 22.8438 19.4062C17.9375 19.4062 13.9531 23.3906 13.9531 28.2969C13.9531 33.2031 17.9375 37.1875 22.8438 37.1875C27.75 37.1875 31.7344 33.2031 31.7344 28.2969V18.1562C33.6172 19.5547 35.9375 20.375 38.4375 20.375V15.7422C36.8438 15.7422 35.3672 15.1953 34.1451 13.3456Z" fill="white"/>
                                   </svg>
-                                  <span className="text-white/80 text-xs font-medium">TikTok</span>
+                                  <span className="text-white/90 text-[11px] font-bold tracking-wide">TikTok</span>
                               </div>
                           </div>
                       ) : project.videoSrc ? (
@@ -102,14 +102,19 @@ export default function AllProjects() {
                           <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
                       ) : (
                           <div className="w-full h-full flex items-center justify-center bg-gray-800 text-gray-600 font-bold text-xl">
-                              {project.title} Preview
+                              Preview
                           </div>
                       )}
-                      
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" />
-                      <div className="absolute bottom-0 left-0 right-0 p-6 pointer-events-none">
-                         <span className="text-primary text-sm font-medium mb-2 block">{project.category}</span>
-                         <h3 className="text-2xl font-bold text-white">{project.title}</h3>
+                   </div>
+                   
+                   <div className="p-6 flex-1 flex flex-col bg-white/5 relative z-20">
+                      <span className="text-primary text-sm font-bold mb-2 tracking-wide uppercase">{project.category}</span>
+                      <h3 className="text-xl sm:text-2xl font-bold text-white line-clamp-2 leading-tight">{project.title}</h3>
+                      <div className="mt-auto flex items-center text-gray-500 text-sm gap-2">
+                          <span>Tap to flip</span>
+                          <svg className="w-4 h-4 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                          </svg>
                       </div>
                    </div>
                 </div>
