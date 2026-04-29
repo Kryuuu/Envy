@@ -28,7 +28,7 @@ export default function AdminPage() {
   const [isNew, setIsNew] = useState(false);
 
   // Simple pass for local protection
-  const AUTH_PASS = "admin123"; 
+  const AUTH_PASS = "gabut123"; 
 
   useEffect(() => {
     if (isAuthenticated) {
