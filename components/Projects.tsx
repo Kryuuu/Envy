@@ -36,6 +36,7 @@ const projects: Project[] = projectsData;
 
 export default function Projects() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [flippedIndex, setFlippedIndex] = useState<number | null>(null);
   
   const displayedProjects = projects.slice(0, 4);
   
@@ -68,9 +69,12 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group relative h-[400px] sm:h-[420px] w-full [perspective:1000px]"
+              className="group relative h-[400px] sm:h-[420px] w-full [perspective:1000px] cursor-pointer md:cursor-default"
             >
-              <div className="relative w-full h-full transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+              <div 
+                 className={`relative w-full h-full transition-all duration-700 [transform-style:preserve-3d] md:group-hover:[transform:rotateY(180deg)] ${flippedIndex === index ? '[transform:rotateY(180deg)]' : ''}`}
+                 onClick={() => setFlippedIndex(flippedIndex === index ? null : index)}
+              >
                 
                 {/* Front Side */}
                 <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] rounded-xl overflow-hidden bg-white/5 border border-white/10 flex flex-col">
@@ -135,13 +139,13 @@ export default function Projects() {
 
                     <div className="flex gap-3 mt-auto">
                         {project.link !== "#" && (
-                            <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors font-medium text-sm">
+                            <a href={project.link} onClick={e => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors font-medium text-sm">
                               <ExternalLink size={16} /> Visit
                             </a>
                         )}
                         {(project.videoSrc || project.youtubeId || project.tiktokId) && (
                             <button 
-                                onClick={() => setSelectedVideo(project.tiktokId ? `tiktok:${project.tiktokId}` : project.youtubeId ? `youtube:${project.youtubeId}` : project.videoSrc!)} 
+                                onClick={(e) => { e.stopPropagation(); setSelectedVideo(project.tiktokId ? `tiktok:${project.tiktokId}` : project.youtubeId ? `youtube:${project.youtubeId}` : project.videoSrc!); }} 
                                 className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-primary/20 hover:bg-primary/30 text-primary border border-primary/20 rounded-lg transition-colors font-medium text-sm"
                             >
                                 <PlayCircle size={16} /> Watch

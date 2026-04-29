@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Trash2, Plus, Save, ArrowLeft, Loader2, Edit2, X, Image as ImageIcon } from "lucide-react";
+import { Trash2, Plus, Save, ArrowLeft, Loader2, Edit2, X, Image as ImageIcon, Activity, CheckCircle, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 
 interface Project {
@@ -11,6 +11,7 @@ interface Project {
   image: string;
   videoSrc?: string;
   youtubeId?: string;
+  tiktokId?: string;
   description: string;
   tags: string[];
   link: string;
@@ -26,6 +27,18 @@ export default function AdminPage() {
   // Edit Mode State
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [isNew, setIsNew] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
+
+  // Diagnostic State
+  const [showDiagnostic, setShowDiagnostic] = useState(false);
+  const [diagnosticLogs, setDiagnosticLogs] = useState<{msg: string, status: 'ok' | 'error' | 'warn'}[]>([]);
+  const [isRunningDiag, setIsRunningDiag] = useState(false);
+
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   // Simple pass for local protection
   const AUTH_PASS = "gabut123"; 
@@ -43,7 +56,7 @@ export default function AdminPage() {
       setProjects(data);
     } catch (error) {
       console.error("Error fetching:", error);
-      alert("Gagal mengambil data projects");
+      showToast("Gagal mengambil data projects", "error");
     } finally {
       setLoading(false);
     }
@@ -54,7 +67,7 @@ export default function AdminPage() {
     if (password === AUTH_PASS) {
       setIsAuthenticated(true);
     } else {
-      alert("Password salah!");
+      showToast("Password salah!", "error");
     }
   };
 
@@ -70,11 +83,13 @@ export default function AdminPage() {
     };
     setEditingProject(newProject);
     setIsNew(true);
+    setErrors({});
   };
 
   const openEditModal = (project: Project) => {
     setEditingProject({ ...project });
     setIsNew(false);
+    setErrors({});
   };
 
   const handleDelete = (id: string, e: React.MouseEvent) => {
@@ -88,8 +103,14 @@ export default function AdminPage() {
 
   const saveLocalProject = () => {
     if (!editingProject) return;
-    if (!editingProject.title) {
-        alert("Judul project wajib diisi!");
+    
+    // Validation for Tester
+    const newErrors: Record<string, string> = {};
+    if (!editingProject.title.trim()) newErrors.title = "Judul project wajib diisi!";
+    if (!editingProject.description.trim()) newErrors.description = "Deskripsi tidak boleh kosong!";
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        showToast("Ada bagian yang error, silakan periksa form!", "error");
         return;
     }
 
@@ -114,10 +135,14 @@ export default function AdminPage() {
         body: JSON.stringify(data),
       });
       
-      if (!res.ok) alert("Gagal menyimpan ke file JSON!");
+      if (!res.ok) {
+        showToast("Gagal menyimpan ke file JSON!", "error");
+      } else {
+        showToast("Berhasil menyimpan data!", "success");
+      }
     } catch (error) {
       console.error("Save error:", error);
-      alert("Error saving.");
+      showToast("Terjadi kesalahan sistem saat menyimpan.", "error");
     } finally {
       setSaving(false);
     }
@@ -127,6 +152,9 @@ export default function AdminPage() {
   const updateEditField = (field: keyof Project, value: any) => {
     if (editingProject) {
         setEditingProject({ ...editingProject, [field]: value });
+        if (errors[field]) {
+            setErrors({ ...errors, [field]: "" });
+        }
     }
   };
 
@@ -136,9 +164,77 @@ export default function AdminPage() {
      }
   };
 
+  const runDiagnostics = async () => {
+    setShowDiagnostic(true);
+    setIsRunningDiag(true);
+    setDiagnosticLogs([{ msg: "Memulai pengecekan file & API sistem...", status: 'ok' }]);
+
+    setTimeout(async () => {
+        let logs: {msg: string, status: 'ok' | 'error' | 'warn'}[] = [];
+        
+        // 1. API Status
+        try {
+            const apiRes = await fetch("/api/projects");
+            if (apiRes.ok) {
+                logs.push({ msg: "Endpoint API (/api/projects) berfungsi normal. File JSON dapat diakses.", status: 'ok' });
+            } else {
+                logs.push({ msg: `API Error / File Bertabrakan! Status: ${apiRes.status}`, status: 'error' });
+            }
+        } catch (e) {
+            logs.push({ msg: "Gagal terhubung ke API. Backend tidak merespon.", status: 'error' });
+        }
+
+        // 2. Data Integrity
+        if (projects.length === 0) {
+            logs.push({ msg: "Tidak ada data project ditemukan. File JSON kosong atau rusak.", status: 'warn' });
+        } else {
+            logs.push({ msg: `Membaca data file... Ditemukan ${projects.length} project.`, status: 'ok' });
+            
+            // Duplicate IDs
+            const ids = projects.map(p => p.id);
+            const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
+            if (duplicates.length > 0) {
+                logs.push({ msg: `Ditemukan ID bertabrakan (duplikat) di file JSON: ${duplicates.join(", ")}`, status: 'error' });
+            } else {
+                logs.push({ msg: "Semua ID project unik. Tidak ada ID yang bertabrakan.", status: 'ok' });
+            }
+
+            // Missing critical fields
+            let missingFields = 0;
+            projects.forEach(p => {
+                if (!p.title || !p.category) missingFields++;
+            });
+            if (missingFields > 0) {
+                logs.push({ msg: `Ada ${missingFields} project yang memiliki field kosong (Judul / Kategori).`, status: 'error' });
+            } else {
+                logs.push({ msg: "Semua project memiliki field Judul dan Kategori.", status: 'ok' });
+            }
+
+            // Media Links
+            let missingMedia = 0;
+            projects.forEach(p => {
+                if (!p.image && !p.videoSrc && !p.youtubeId && !p.tiktokId) missingMedia++;
+            });
+            if (missingMedia > 0) {
+                logs.push({ msg: `Peringatan: ${missingMedia} project tidak memiliki gambar/video (Thumbnail kosong).`, status: 'warn' });
+            } else {
+                logs.push({ msg: "Pengecekan media: Semua project memiliki referensi file media (Gambar/Video).", status: 'ok' });
+            }
+        }
+
+        setDiagnosticLogs(prev => [...prev, ...logs, { msg: "Diagnostik selesai.", status: 'ok' }]);
+        setIsRunningDiag(false);
+    }, 1500);
+  };
+
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-950 text-white">
+      <div className="min-h-screen flex items-center justify-center bg-gray-950 text-white relative">
+        {toast && (
+            <div className={`absolute top-6 px-6 py-3 rounded-lg text-white font-bold shadow-lg ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'}`}>
+                {toast.message}
+            </div>
+        )}
         <form onSubmit={handleLogin} className="p-8 border border-white/10 rounded-xl bg-black/50 text-center w-full max-w-sm backdrop-blur-md">
           <h1 className="text-2xl font-bold mb-6">Envy Admin</h1>
           <input 
@@ -156,6 +252,11 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white p-6 md:p-12 relative">
+      {toast && (
+        <div className={`fixed top-6 right-6 z-50 px-6 py-3 rounded-lg text-white font-bold shadow-lg animate-in slide-in-from-right ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'}`}>
+            {toast.message}
+        </div>
+      )}
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
@@ -170,14 +271,20 @@ export default function AdminPage() {
           </div>
           
           <div className="flex items-center gap-3">
-             <div className="px-4 py-2 bg-yellow-500/10 text-yellow-500 text-xs rounded-full border border-yellow-500/20">
+             <button 
+               onClick={runDiagnostics}
+               className="flex items-center gap-2 px-4 py-2.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full font-medium hover:bg-blue-500/20 transition-all text-sm"
+             >
+               <Activity size={18} /> System Check
+             </button>
+             <div className="px-4 py-2 bg-yellow-500/10 text-yellow-500 text-xs rounded-full border border-yellow-500/20 hidden md:block">
                 {saving ? "Saving changes..." : "All changes auto-saved"}
              </div>
              <button 
               onClick={openNewProjectModal}
-              className="flex items-center gap-2 px-6 py-3 bg-primary rounded-full font-medium hover:bg-primary/80 transition-all shadow-lg shadow-primary/20 hover:scale-105"
+              className="flex items-center gap-2 px-6 py-2.5 bg-primary rounded-full font-medium hover:bg-primary/80 transition-all shadow-lg shadow-primary/20 hover:scale-105"
             >
-              <Plus size={20} /> Add New Project
+              <Plus size={20} /> Add Project
             </button>
           </div>
         </div>
@@ -242,13 +349,14 @@ export default function AdminPage() {
                         {/* LEFT: Content */}
                         <div className="space-y-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-400 mb-2">Project Title</label>
+                                <label className="block text-sm font-medium text-gray-400 mb-2">Project Title *</label>
                                 <input 
-                                    className="w-full bg-black/50 border border-white/10 rounded-lg p-3 focus:border-primary outline-none text-lg font-bold"
+                                    className={`w-full bg-black/50 border ${errors.title ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-primary'} rounded-lg p-3 outline-none text-lg font-bold`}
                                     placeholder="Project Name"
                                     value={editingProject.title}
                                     onChange={e => updateEditField("title", e.target.value)}
                                 />
+                                {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title}</p>}
                             </div>
                             
                             <div className="grid grid-cols-2 gap-4">
@@ -278,20 +386,21 @@ export default function AdminPage() {
                             </div>
                             
                             <div>
-                                <label className="block text-sm font-medium text-gray-400 mb-2">Description</label>
+                                <label className="block text-sm font-medium text-gray-400 mb-2">Description *</label>
                                 <textarea 
-                                    className="w-full bg-black/50 border border-white/10 rounded-lg p-3 focus:border-primary outline-none min-h-[120px]"
+                                    className={`w-full bg-black/50 border ${errors.description ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-primary'} rounded-lg p-3 outline-none min-h-[120px]`}
                                     placeholder="Describe the project..."
                                     value={editingProject.description}
                                     onChange={e => updateEditField("description", e.target.value)}
                                 />
+                                {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
                             </div>
                         </div>
 
                         {/* RIGHT: Media */}
                         <div className="space-y-6">
                             <div className="p-4 rounded-xl bg-white/5 border border-dashed border-white/20">
-                                <label className="block text-sm font-medium text-green-400 mb-2">YouTube Video (Recommended)</label>
+                                <label className="block text-sm font-medium text-green-400 mb-2">YouTube Video</label>
                                 <input 
                                     className="w-full bg-black/50 border border-green-500/30 rounded-lg p-3 focus:border-green-500 outline-none mb-2"
                                     placeholder="Paste YouTube ID (e.g. 08Jn9E-UoMQ)"
@@ -304,6 +413,16 @@ export default function AdminPage() {
                                         <div className="absolute inset-0 flex items-center justify-center bg-black/20"><p className="text-xs font-bold bg-black/50 px-2 py-1 rounded">Preview</p></div>
                                     </div>
                                 )}
+                            </div>
+                            
+                            <div className="p-4 rounded-xl bg-white/5 border border-dashed border-white/20">
+                                <label className="block text-sm font-medium text-[#fe2c55] mb-2">TikTok Video</label>
+                                <input 
+                                    className="w-full bg-black/50 border border-[#fe2c55]/30 rounded-lg p-3 focus:border-[#fe2c55] outline-none"
+                                    placeholder="Paste TikTok ID (e.g. 71234567890)"
+                                    value={editingProject.tiktokId || ""}
+                                    onChange={e => updateEditField("tiktokId", e.target.value)}
+                                />
                             </div>
 
                             <div>
@@ -342,6 +461,54 @@ export default function AdminPage() {
                         className="px-8 py-2 bg-primary rounded-lg font-bold hover:bg-primary/80 transition-colors shadow-lg shadow-primary/20"
                     >
                         Save Project
+                    </button>
+                </div>
+            </div>
+        </div>
+      )}
+
+      {/* DIAGNOSTIC MODAL */}
+      {showDiagnostic && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+            <div className="w-full max-w-3xl bg-gray-950 border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+                <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
+                    <div className="flex items-center gap-3">
+                        <Activity className="text-blue-400" />
+                        <h2 className="text-xl font-bold text-white">System Diagnostics (Tester Mode)</h2>
+                    </div>
+                    <button onClick={() => setShowDiagnostic(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors"><X size={24} /></button>
+                </div>
+                
+                <div className="p-6 overflow-y-auto max-h-[60vh] space-y-4 font-mono text-sm bg-black custom-scrollbar">
+                    <p className="text-gray-500 mb-4">// Menjalankan pengecekan pada file konfigurasi & API...</p>
+                    {diagnosticLogs.map((log, i) => (
+                        <div key={i} className={`flex items-start gap-3 p-3 rounded-lg border animate-in slide-in-from-bottom-2 ${
+                            log.status === 'ok' ? 'bg-green-500/10 border-green-500/20 text-green-400' :
+                            log.status === 'error' ? 'bg-red-500/10 border-red-500/20 text-red-400' :
+                            'bg-yellow-500/10 border-yellow-500/20 text-yellow-400'
+                        }`}>
+                            <div className="mt-0.5">
+                                {log.status === 'ok' && <CheckCircle size={16} />}
+                                {log.status === 'error' && <AlertTriangle size={16} />}
+                                {log.status === 'warn' && <AlertTriangle size={16} />}
+                            </div>
+                            <p>{log.msg}</p>
+                        </div>
+                    ))}
+                    {isRunningDiag && (
+                        <div className="flex items-center gap-3 text-gray-500 p-3 animate-pulse">
+                            <Loader2 className="animate-spin" size={16} /> <span>Memeriksa status integrasi file...</span>
+                        </div>
+                    )}
+                </div>
+
+                <div className="p-4 border-t border-white/10 bg-white/5 flex justify-end">
+                    <button 
+                        onClick={runDiagnostics} 
+                        disabled={isRunningDiag}
+                        className="px-6 py-2 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white rounded-lg transition-colors font-bold"
+                    >
+                        {isRunningDiag ? "Scanning..." : "Re-run Scan"}
                     </button>
                 </div>
             </div>
