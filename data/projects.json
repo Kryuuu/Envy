@@ -1,5 +1,18 @@
 [
   {
+    "id": "8",
+    "title": "Instagram Follow Tracker",
+    "category": "Development",
+    "image": "/projects/ig-tracker.png",
+    "description": "Tool untuk menganalisis siapa yang tidak follow balik kamu di Instagram. Upload file HTML dari Instagram Data Export untuk melihat unfollowers, fans, dan mutual follows. 100% private — semua proses di browser.",
+    "tags": [
+      "Next.js",
+      "Instagram",
+      "Tool"
+    ],
+    "link": "/projects/ig-tracker"
+  },
+  {
     "id": "0",
     "title": "WarungKu — Smart UMKM Food Platform",
     "category": "Development",

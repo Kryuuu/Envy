@@ -134,9 +134,15 @@ export default function AllProjects() {
 
                     <div className="flex gap-3 mt-auto">
                         {project.link !== "#" && (
-                            <a href={project.link} onClick={e => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors font-medium text-sm">
-                              <ExternalLink size={16} /> Visit
-                            </a>
+                            project.link.startsWith("/") ? (
+                              <Link href={project.link} onClick={e => e.stopPropagation()} className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors font-medium text-sm">
+                                <ExternalLink size={16} /> Open
+                              </Link>
+                            ) : (
+                              <a href={project.link} onClick={e => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors font-medium text-sm">
+                                <ExternalLink size={16} /> Visit
+                              </a>
+                            )
                         )}
                         {(project.videoSrc || project.youtubeId || project.tiktokId) && (
                             <button 
