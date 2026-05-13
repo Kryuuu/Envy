@@ -23,7 +23,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden pt-28 pb-16">
       {/* ─── Ambient Background ─── */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Primary glow orb */}
@@ -91,13 +91,13 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.08] mb-10"
+          className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.08] mb-8 sm:mb-10"
         >
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
           </span>
-          <span className="text-sm text-muted-foreground font-medium">
+          <span className="text-xs sm:text-sm text-muted-foreground font-medium">
             Available for freelance projects
           </span>
         </motion.div>
@@ -107,10 +107,10 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white leading-[1.1] tracking-tight mb-8"
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white leading-[1.1] tracking-tight mb-6 sm:mb-8"
         >
           <span className="block">Building modern</span>
-          <span className="block mt-2">
+          <span className="block mt-1 sm:mt-2">
             <AnimatePresence mode="wait">
               <motion.span
                 key={currentIndex}
@@ -124,7 +124,7 @@ export default function Hero() {
               </motion.span>
             </AnimatePresence>
           </span>
-          <span className="block mt-2 text-white/60">
+          <span className="block mt-1 sm:mt-2 text-white/60">
             that help ideas grow.
           </span>
         </motion.h1>
@@ -134,7 +134,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed"
+          className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 sm:mb-12 leading-relaxed"
         >
           I design and develop scalable digital solutions for businesses,
           startups, and organizations — turning complex problems into clean,
@@ -148,11 +148,11 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.7 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <a href="#projects" className="btn-primary">
+          <a href="#projects" className="btn-primary w-full sm:w-auto">
             <span>View Projects</span>
             <ArrowRight className="w-4 h-4" />
           </a>
-          <a href="#contact" className="btn-ghost">
+          <a href="#contact" className="btn-ghost w-full sm:w-auto">
             <Sparkles className="w-4 h-4" />
             <span>Start a Project</span>
           </a>
@@ -163,18 +163,18 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1 }}
-          className="mt-20 flex items-center justify-center gap-8 md:gap-12"
+          className="mt-16 sm:mt-20 flex flex-wrap items-center justify-center gap-6 sm:gap-8 md:gap-12"
         >
           {[
             { value: "20+", label: "Projects" },
             { value: "3+", label: "Years" },
             { value: "100%", label: "Dedication" },
           ].map((stat) => (
-            <div key={stat.label} className="text-center">
+            <div key={stat.label} className="text-center px-2">
               <p className="text-2xl md:text-3xl font-bold text-white">
                 {stat.value}
               </p>
-              <p className="text-xs md:text-sm text-muted mt-1">{stat.label}</p>
+              <p className="text-xs md:text-sm text-muted-foreground mt-1">{stat.label}</p>
             </div>
           ))}
         </motion.div>
@@ -185,7 +185,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
+        className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 hidden sm:block"
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}
