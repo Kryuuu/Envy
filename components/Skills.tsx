@@ -50,7 +50,7 @@ export default function Skills() {
         </motion.div>
 
         {/* Technologies Marquee */}
-        <div className="mb-24">
+        <div className="mb-24 flex flex-col gap-6">
           <div
             className="relative w-full overflow-hidden py-6"
             style={{
@@ -60,21 +60,48 @@ export default function Skills() {
                 "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
             }}
           >
-            <div className="flex w-max animate-marquee">
+            {/* Row 1 - Left */}
+            <div className="flex w-max animate-marquee mb-6">
               {[...technologies, ...technologies].map((tech, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 mx-4 group"
-                >
+                <div key={index} className="flex-shrink-0 mx-4 group">
                   <div className="flex items-center gap-3 px-6 py-3 rounded-full glass-card hover:border-white/20 transition-all duration-300 cursor-default">
                     <div
                       className="w-2.5 h-2.5 rounded-full flex-shrink-0 transition-all duration-300 group-hover:shadow-[0_0_10px_var(--dot-color)]"
-                      style={
-                        {
-                          backgroundColor: tech.color,
-                          "--dot-color": tech.color,
-                        } as React.CSSProperties
-                      }
+                      style={{ backgroundColor: tech.color, "--dot-color": tech.color } as React.CSSProperties}
+                    />
+                    <span className="text-sm font-medium text-muted-foreground group-hover:text-white transition-colors whitespace-nowrap">
+                      {tech.name}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Row 2 - Right */}
+            <div className="flex w-max animate-marquee-reverse mb-6">
+              {[...[...technologies].reverse(), ...[...technologies].reverse()].map((tech, index) => (
+                <div key={index} className="flex-shrink-0 mx-4 group">
+                  <div className="flex items-center gap-3 px-6 py-3 rounded-full glass-card hover:border-white/20 transition-all duration-300 cursor-default">
+                    <div
+                      className="w-2.5 h-2.5 rounded-full flex-shrink-0 transition-all duration-300 group-hover:shadow-[0_0_10px_var(--dot-color)]"
+                      style={{ backgroundColor: tech.color, "--dot-color": tech.color } as React.CSSProperties}
+                    />
+                    <span className="text-sm font-medium text-muted-foreground group-hover:text-white transition-colors whitespace-nowrap">
+                      {tech.name}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Row 3 - Left */}
+            <div className="flex w-max animate-marquee">
+              {[...technologies.slice(6), ...technologies.slice(0, 6), ...technologies.slice(6), ...technologies.slice(0, 6)].map((tech, index) => (
+                <div key={index} className="flex-shrink-0 mx-4 group">
+                  <div className="flex items-center gap-3 px-6 py-3 rounded-full glass-card hover:border-white/20 transition-all duration-300 cursor-default">
+                    <div
+                      className="w-2.5 h-2.5 rounded-full flex-shrink-0 transition-all duration-300 group-hover:shadow-[0_0_10px_var(--dot-color)]"
+                      style={{ backgroundColor: tech.color, "--dot-color": tech.color } as React.CSSProperties}
                     />
                     <span className="text-sm font-medium text-muted-foreground group-hover:text-white transition-colors whitespace-nowrap">
                       {tech.name}
