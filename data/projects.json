@@ -2,62 +2,72 @@
   {
     "id": "8",
     "title": "Instagram Follow Tracker",
-    "category": "Development",
+    "category": "Web Tool",
     "image": "/projects/ig-tracker.png",
-    "description": "Tool untuk menganalisis siapa yang tidak follow balik kamu di Instagram. Upload file HTML dari Instagram Data Export untuk melihat unfollowers, fans, dan mutual follows. 100% private — semua proses di browser.",
+    "description": "Privacy-first analytics tool that helps users identify unfollowers, mutual follows, and fans from Instagram data exports. All processing happens locally in the browser — zero data sent to servers.",
     "tags": [
       "Next.js",
-      "Instagram",
-      "Tool"
+      "TypeScript",
+      "Privacy"
     ],
-    "link": "/projects/ig-tracker"
+    "link": "/projects/ig-tracker",
+    "problem": "Users needed a safe way to analyze Instagram follow data without third-party apps.",
+    "solution": "Built a client-side HTML parser with visual dashboard for follow analysis.",
+    "impact": "100% private — zero data leaves the user's browser"
   },
   {
     "id": "0",
-    "title": "WarungKu — Smart UMKM Food Platform",
-    "category": "Development",
+    "title": "WarungKu — Smart UMKM Platform",
+    "category": "Full-Stack System",
     "image": "/projects/warungku.png",
-    "description": "Platform manajemen UMKM kuliner berbasis web dengan fitur kasir digital, manajemen menu, laporan penjualan real-time, dan sistem pemesanan online.",
+    "description": "End-to-end food business management platform with digital POS, menu management, real-time sales reports, and online ordering system — designed specifically for small business owners.",
     "tags": [
       "Next.js",
       "Laravel",
       "MySQL",
       "Tailwind CSS"
     ],
-    "link": "https://warung-gold.vercel.app/"
+    "link": "https://warung-gold.vercel.app/",
+    "problem": "Small food businesses needed an affordable, modern management system.",
+    "solution": "Built a full-stack platform with POS, reporting, and online ordering.",
+    "impact": "Streamlined operations for UMKM food businesses"
   },
   {
     "id": "1",
-    "title": "Website Profile Company",
-    "category": "Development",
+    "title": "Rumah BUMN Banjarmasin",
+    "category": "Company Website",
     "image": "/projects/webrb.png",
-    "description": "A full-stack Profile Company website.",
+    "description": "Professional company profile website for Rumah BUMN Banjarmasin, showcasing services, events, and organizational information with a clean, trustworthy design.",
     "tags": [
       "PHP",
-      "XAMPP"
+      "MySQL",
+      "Responsive"
     ],
-    "link": "https://rumahbumnbanjarmasin.com/"
+    "link": "https://rumahbumnbanjarmasin.com/",
+    "problem": "Organization needed a professional online presence to attract members.",
+    "solution": "Designed and developed a clean, informative company profile site.",
+    "impact": "Established credible digital presence for the organization"
   },
   {
     "id": "2",
-    "title": "Short Movie Kurihing Desa CIndai Alus",
-    "category": "Video Editing",
+    "title": "Short Movie — Kurihing Cindai Alus",
+    "category": "Video Production",
     "image": "",
     "youtubeId": "08Jn9E-UoMQ",
-    "description": "Cinematic Short Movie Kurihing Bersama Desa Cindai Alus.",
+    "description": "Cinematic short film production for Desa Cindai Alus — combining storytelling, cinematography, and professional editing to showcase local culture and heritage.",
     "tags": [
-      "CapCut",
-      "After Effects"
+      "After Effects",
+      "Cinematography"
     ],
     "link": "#"
   },
   {
     "id": "5",
-    "title": "BEM FTI UNISKA — Organization Edit",
-    "category": "Video Editing",
+    "title": "BEM FTI UNISKA — Organization Video",
+    "category": "Video Production",
     "image": "/projects/tiktok_bem.jpg",
     "tiktokId": "7532513783571287317",
-    "description": "Video editing untuk organisasi BEM FTI UNISKA Banjarmasin — Kabinet Tomodachi.",
+    "description": "Promotional video for BEM FTI UNISKA Banjarmasin — Kabinet Tomodachi. Dynamic editing with motion graphics and trendy transitions.",
     "tags": [
       "After Effects",
       "TikTok"
@@ -67,28 +77,26 @@
   {
     "id": "6",
     "title": "AMV Edit — NVNTY",
-    "category": "Video Editing",
+    "category": "Creative Edit",
     "image": "/projects/tiktok_nvnty.jpg",
     "tiktokId": "7399276728356490501",
-    "description": "AMV (Anime Music Video) edit dengan style cinematic dan smooth transitions.",
+    "description": "Anime Music Video edit featuring cinematic transitions, rhythm-synced cuts, and visual effects that push creative boundaries.",
     "tags": [
       "After Effects",
-      "AMV",
-      "TikTok"
+      "AMV"
     ],
     "link": "https://www.tiktok.com/@envy.ly_/video/7399276728356490501"
   },
   {
     "id": "7",
     "title": "AMV Holo Edit — After Effects",
-    "category": "Video Editing",
+    "category": "Creative Edit",
     "image": "/projects/tiktok_holo.jpg",
     "tiktokId": "7244589182205693185",
-    "description": "Holo-style AMV edit dengan visual effects menggunakan Adobe After Effects.",
+    "description": "Holographic-style AMV edit showcasing advanced visual effects, light leaks, and color grading techniques in Adobe After Effects.",
     "tags": [
       "After Effects",
-      "AMV",
-      "Edit"
+      "VFX"
     ],
     "link": "https://www.tiktok.com/@envy.ly_/video/7244589182205693185"
   }

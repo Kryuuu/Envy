@@ -1,121 +1,200 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { useState, useEffect } from "react";
 
-const roles = [
-  "Programmer",
-  "Video Editor",
-  "Photographer",
-  "Videographer",
-  "Graphic Designer",
-  "Content Creator",
+const capabilities = [
+  "Web Experiences",
+  "Digital Products",
+  "Custom Dashboards",
+  "Landing Pages",
+  "Brand Identities",
 ];
 
 export default function Hero() {
-  const [currentRole, setCurrentRole] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentRole((prev) => (prev + 1) % roles.length);
-    }, 3000); 
+      setCurrentIndex((prev) => (prev + 1) % capabilities.length);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden pt-16">
-      {/* Background decoration */}
-      <motion.div 
-        animate={{ 
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* ─── Ambient Background ─── */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Primary glow orb */}
+        <motion.div
+          animate={{
             scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3],
-        }}
-        transition={{
+            opacity: [0.15, 0.25, 0.15],
+          }}
+          transition={{
             duration: 8,
             repeat: Infinity,
-            ease: "easeInOut"
-        }}
-        className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/30 rounded-full blur-[128px]" 
-      />
-      <motion.div 
-        animate={{ 
+            ease: "easeInOut",
+          }}
+          className="absolute top-[20%] left-[15%] w-[500px] h-[500px] bg-primary/30 rounded-full blur-[150px]"
+        />
+        {/* Secondary glow orb */}
+        <motion.div
+          animate={{
             scale: [1, 1.3, 1],
-            opacity: [0.3, 0.7, 0.3],
-        }}
-        transition={{
+            opacity: [0.1, 0.2, 0.1],
+          }}
+          transition={{
             duration: 10,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 2
-        }}
-        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/30 rounded-full blur-[128px]" 
-      />
+            delay: 3,
+          }}
+          className="absolute bottom-[20%] right-[10%] w-[600px] h-[600px] bg-secondary/20 rounded-full blur-[180px]"
+        />
+        {/* Accent glow */}
+        <motion.div
+          animate={{
+            scale: [1, 1.15, 1],
+            opacity: [0.05, 0.12, 0.05],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 5,
+          }}
+          className="absolute top-[60%] left-[50%] w-[400px] h-[400px] bg-accent/20 rounded-full blur-[160px]"
+        />
 
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-primary font-medium tracking-wide mb-4 text-lg"
-        >
-          WELCOME TO MY PORTFOLIO
-        </motion.p>
-        
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-5xl md:text-7xl font-bold text-white mb-6"
-        >
-          Hi, I am a{" "}
-          <span className="block mt-4 h-[1.5em] relative w-full overflow-hidden">
-            <AnimatePresence initial={false}>
-              <motion.span
-                key={currentRole}
-                initial={{ y: "100%", opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: "-100%", opacity: 0 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // smooth apple-like ease
-                className="absolute inset-x-0 top-0 w-full text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary leading-[1.5em]"
-              >
-                {roles[currentRole]}
-              </motion.span>
-            </AnimatePresence>
-          </span>
-        </motion.h1>
+        {/* Grid pattern overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: "60px 60px",
+          }}
+        />
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10"
-        >
-          Creating digital experiences through code, visuals, and storytelling. 
-          Bringing ideas to life with precision and creativity.
-        </motion.p>
+        {/* Radial vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--background)_70%)]" />
+      </div>
 
+      {/* ─── Content ─── */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+        {/* Status Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.08] mb-10"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
+          </span>
+          <span className="text-sm text-muted-foreground font-medium">
+            Available for freelance projects
+          </span>
+        </motion.div>
+
+        {/* Main Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white leading-[1.1] tracking-tight mb-8"
+        >
+          <span className="block">Building modern</span>
+          <span className="block mt-2">
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={currentIndex}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] as const }}
+                className="block gradient-text pb-2"
+              >
+                {capabilities[currentIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </span>
+          <span className="block mt-2 text-white/60">
+            that help ideas grow.
+          </span>
+        </motion.h1>
+
+        {/* Subheadline */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed"
+        >
+          I design and develop scalable digital solutions for businesses,
+          startups, and organizations — turning complex problems into clean,
+          intuitive experiences.
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <a
-            href="#projects"
-            className="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 group"
-          >
-            View My Work
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          <a href="#projects" className="btn-primary">
+            <span>View Projects</span>
+            <ArrowRight className="w-4 h-4" />
           </a>
-          <a
-            href="#contact"
-            className="px-8 py-3 rounded-full bg-white/10 border border-white/20 text-white font-semibold hover:bg-white/20 transition-colors flex items-center gap-2"
-          >
-            Contact Me
+          <a href="#contact" className="btn-ghost">
+            <Sparkles className="w-4 h-4" />
+            <span>Start a Project</span>
           </a>
         </motion.div>
+
+        {/* Trust Metrics */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="mt-20 flex items-center justify-center gap-8 md:gap-12"
+        >
+          {[
+            { value: "20+", label: "Projects" },
+            { value: "3+", label: "Years" },
+            { value: "100%", label: "Dedication" },
+          ].map((stat) => (
+            <div key={stat.label} className="text-center">
+              <p className="text-2xl md:text-3xl font-bold text-white">
+                {stat.value}
+              </p>
+              <p className="text-xs md:text-sm text-muted mt-1">{stat.label}</p>
+            </div>
+          ))}
+        </motion.div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="w-5 h-8 rounded-full border-2 border-white/20 flex items-start justify-center p-1"
+        >
+          <motion.div className="w-1 h-2 bg-white/40 rounded-full" />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

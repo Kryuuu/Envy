@@ -1,23 +1,8 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Github, PlayCircle, X, Music2 } from "lucide-react";
-import Image from "next/image";
+import { ExternalLink, Github, ArrowUpRight, X, PlayCircle } from "lucide-react";
 import { useState } from "react";
-
-interface Project {
-  title: string;
-  category: string;
-  image: string;
-  videoSrc?: string;
-  youtubeId?: string;
-  tiktokId?: string;
-  description: string;
-  tags: string[];
-  link: string;
-}
-
-import projectsData from "@/data/projects.json";
 
 interface Project {
   id?: string;
@@ -30,190 +15,226 @@ interface Project {
   description: string;
   tags: string[];
   link: string;
+  problem?: string;
+  solution?: string;
+  impact?: string;
 }
+
+import projectsData from "@/data/projects.json";
 
 const projects: Project[] = projectsData;
 
 export default function Projects() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-  const [flippedIndex, setFlippedIndex] = useState<number | null>(null);
-  
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   const displayedProjects = projects.slice(0, 4);
-  
+
   return (
-    <section id="projects" className="py-20 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="projects" className="relative py-32 section-glow">
+      {/* Background accents */}
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[180px]" />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+        {/* Section Header */}
         <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Featured Projects</h2>
-          <p className="text-gray-400 mb-8">Selected works from my portfolio.</p>
-          
-          <a 
-            href="/projects" 
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-all hover:scale-105 group"
+          <div className="max-w-2xl">
+            <span className="text-sm font-medium text-primary tracking-wider uppercase mb-4 block">
+              Selected Work
+            </span>
+            <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
+              Projects that
+              <span className="gradient-text"> deliver results</span>
+            </h2>
+          </div>
+          <a
+            href="/projects"
+            className="group inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-white transition-colors"
           >
-            See All Projects 
-            <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
+            View all projects
+            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </a>
         </motion.div>
 
+        {/* Projects Grid */}
         <div className="grid md:grid-cols-2 gap-8">
           {displayedProjects.map((project, index) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
+              key={project.id || index}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="group relative h-[400px] sm:h-[420px] w-full [perspective:1000px] cursor-pointer md:cursor-default"
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{
+                delay: index * 0.15,
+                duration: 0.7,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              className="group relative rounded-2xl overflow-hidden glass-card glass-card-hover"
             >
-              <div 
-                 className={`relative w-full h-full transition-all duration-700 [transform-style:preserve-3d] md:group-hover:[transform:rotateY(180deg)] ${flippedIndex === index ? '[transform:rotateY(180deg)]' : ''}`}
-                 onClick={() => setFlippedIndex(flippedIndex === index ? null : index)}
-              >
-                
-                {/* Front Side */}
-                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] rounded-xl overflow-hidden bg-white/5 border border-white/10 flex flex-col">
-                   <div className="aspect-video w-full relative overflow-hidden bg-black/50 border-b border-white/10">
-                      {project.youtubeId ? (
-                          <img 
-                              src={`https://img.youtube.com/vi/${project.youtubeId}/hqdefault.jpg`}
-                              alt={project.title}
-                              className="w-full h-full object-cover"
-                          />
-                      ) : project.tiktokId ? (
-                          <div className="w-full h-full relative">
-                              <img 
-                                  src={project.image || ""}
-                                  alt={project.title}
-                                  className="w-full h-full object-cover"
-                              />
-                              <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm rounded-full px-2.5 py-1 z-10 border border-white/10">
-                                  <svg viewBox="0 0 48 48" className="w-3.5 h-3.5" fill="none">
-                                      <path d="M34.1451 13.3456C32.7321 12.1858 31.7891 10.4804 31.7891 8.5625H27.1016V28.2969C27.1016 30.6484 25.1953 32.5547 22.8438 32.5547C20.4922 32.5547 18.5859 30.6484 18.5859 28.2969C18.5859 25.9453 20.4922 24.0391 22.8438 24.0391C23.3203 24.0391 23.7773 24.1172 24.2031 24.2578V19.5078C23.7578 19.4453 23.3047 19.4062 22.8438 19.4062C17.9375 19.4062 13.9531 23.3906 13.9531 28.2969C13.9531 33.2031 17.9375 37.1875 22.8438 37.1875C27.75 37.1875 31.7344 33.2031 31.7344 28.2969V18.1562C33.6172 19.5547 35.9375 20.375 38.4375 20.375V15.7422C36.8438 15.7422 35.3672 15.1953 34.1451 13.3456Z" fill="white"/>
-                                  </svg>
-                                  <span className="text-white/90 text-[11px] font-bold tracking-wide">TikTok</span>
-                              </div>
-                          </div>
-                      ) : project.videoSrc ? (
-                          <video 
-                              src={project.videoSrc} 
-                              className="w-full h-full object-cover"
-                              muted
-                              playsInline
-                              loop
-                              autoPlay
-                          />
-                      ) : project.image.startsWith("http") || project.image.startsWith("/") ? (
-                          <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
-                      ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-gray-800 text-gray-600 font-bold text-xl">
-                              Preview
-                          </div>
-                      )}
-                   </div>
-                   
-                   <div className="p-6 flex-1 flex flex-col bg-white/5 relative z-20">
-                      <span className="text-primary text-sm font-bold mb-2 tracking-wide uppercase">{project.category}</span>
-                      <h3 className="text-xl sm:text-2xl font-bold text-white line-clamp-2 leading-tight">{project.title}</h3>
-                      <div className="mt-auto flex items-center text-gray-500 text-sm gap-2">
-                          <span>Tap to flip</span>
-                          <svg className="w-4 h-4 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-                          </svg>
-                      </div>
-                   </div>
+              {/* Project Thumbnail */}
+              <div className="relative aspect-[16/10] overflow-hidden bg-surface">
+                {project.youtubeId ? (
+                  <img
+                    src={`https://img.youtube.com/vi/${project.youtubeId}/hqdefault.jpg`}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                ) : project.tiktokId ? (
+                  <div className="relative w-full h-full">
+                    <img
+                      src={project.image || ""}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    {/* TikTok badge */}
+                    <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/60 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/10">
+                      <svg viewBox="0 0 48 48" className="w-3.5 h-3.5" fill="none">
+                        <path d="M34.1451 13.3456C32.7321 12.1858 31.7891 10.4804 31.7891 8.5625H27.1016V28.2969C27.1016 30.6484 25.1953 32.5547 22.8438 32.5547C20.4922 32.5547 18.5859 30.6484 18.5859 28.2969C18.5859 25.9453 20.4922 24.0391 22.8438 24.0391C23.3203 24.0391 23.7773 24.1172 24.2031 24.2578V19.5078C23.7578 19.4453 23.3047 19.4062 22.8438 19.4062C17.9375 19.4062 13.9531 23.3906 13.9531 28.2969C13.9531 33.2031 17.9375 37.1875 22.8438 37.1875C27.75 37.1875 31.7344 33.2031 31.7344 28.2969V18.1562C33.6172 19.5547 35.9375 20.375 38.4375 20.375V15.7422C36.8438 15.7422 35.3672 15.1953 34.1451 13.3456Z" fill="white"/>
+                      </svg>
+                      <span className="text-[11px] font-semibold text-white/90">TikTok</span>
+                    </div>
+                  </div>
+                ) : project.image ? (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-surface-elevated">
+                    <span className="text-muted text-sm">Preview</span>
+                  </div>
+                )}
+
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                {/* Play button for video content */}
+                {(project.videoSrc || project.youtubeId || project.tiktokId) && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedVideo(
+                        project.tiktokId
+                          ? `tiktok:${project.tiktokId}`
+                          : project.youtubeId
+                          ? `youtube:${project.youtubeId}`
+                          : project.videoSrc!
+                      );
+                    }}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 hover:bg-white/20 hover:scale-110"
+                  >
+                    <PlayCircle className="w-6 h-6 text-white" />
+                  </button>
+                )}
+              </div>
+
+              {/* Project Info */}
+              <div className="p-6 md:p-8">
+                {/* Category */}
+                <span className="text-xs font-semibold text-primary tracking-wider uppercase">
+                  {project.category}
+                </span>
+
+                {/* Title */}
+                <h3 className="text-xl font-bold text-white mt-2 mb-3 leading-tight group-hover:text-primary-light transition-colors duration-300">
+                  {project.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm text-muted-foreground leading-relaxed mb-5 line-clamp-2">
+                  {project.description}
+                </p>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="tag">
+                      {tag}
+                    </span>
+                  ))}
                 </div>
 
-                {/* Back Side */}
-                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-xl bg-gray-900 border border-primary/50 p-6 flex flex-col z-20">
-                    <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
-                    <p className="text-gray-400 text-sm mb-4 line-clamp-6 flex-1">{project.description}</p>
-                    
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.tags.map((tag) => (
-                        <span key={tag} className="px-3 py-1 rounded-full bg-white/10 text-xs text-white">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex gap-3 mt-auto">
-                        {project.link !== "#" && (
-                            <a href={project.link} onClick={e => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors font-medium text-sm">
-                              <ExternalLink size={16} /> Visit
-                            </a>
-                        )}
-                        {(project.videoSrc || project.youtubeId || project.tiktokId) && (
-                            <button 
-                                onClick={(e) => { e.stopPropagation(); setSelectedVideo(project.tiktokId ? `tiktok:${project.tiktokId}` : project.youtubeId ? `youtube:${project.youtubeId}` : project.videoSrc!); }} 
-                                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-primary/20 hover:bg-primary/30 text-primary border border-primary/20 rounded-lg transition-colors font-medium text-sm"
-                            >
-                                <PlayCircle size={16} /> Watch
-                            </button>
-                        )}
-                    </div>
+                {/* Actions */}
+                <div className="flex items-center gap-3">
+                  {project.link && project.link !== "#" && (
+                    <a
+                      href={project.link}
+                      target={project.link.startsWith("http") ? "_blank" : undefined}
+                      rel={project.link.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="group/btn inline-flex items-center gap-2 text-sm font-medium text-white hover:text-primary-light transition-colors"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      <span>View Project</span>
+                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 transition-all duration-300" />
+                    </a>
+                  )}
                 </div>
-
               </div>
             </motion.div>
           ))}
         </div>
       </div>
 
+      {/* Video Modal */}
       <AnimatePresence>
         {selectedVideo && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-md p-4"
             onClick={() => setSelectedVideo(null)}
           >
             <motion.div
-               initial={{ scale: 0.9 }}
-               animate={{ scale: 1 }}
-               exit={{ scale: 0.9 }}
-               className={`relative bg-black rounded-xl overflow-hidden shadow-2xl border border-white/10 ${
-                 selectedVideo.startsWith("tiktok:") 
-                   ? "w-full max-w-sm aspect-[9/16]" 
-                   : "w-full max-w-5xl aspect-video"
-               }`}
-               onClick={(e) => e.stopPropagation()}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className={`relative bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10 ${
+                selectedVideo.startsWith("tiktok:")
+                  ? "w-full max-w-sm aspect-[9/16]"
+                  : "w-full max-w-5xl aspect-video"
+              }`}
+              onClick={(e) => e.stopPropagation()}
             >
-                <button 
-                  onClick={() => setSelectedVideo(null)}
-                  className="absolute top-4 right-4 z-10 text-white/50 hover:text-white bg-black/50 hover:bg-black/80 rounded-full p-2 transition-all"
-                >
-                    <X size={24} />
-                </button>
-                
-                {selectedVideo.startsWith("youtube:") ? (
-                   <iframe 
-                     src={`https://www.youtube.com/embed/${selectedVideo.split(":")[1]}?autoplay=1`} 
-                     className="w-full h-full"
-                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                     allowFullScreen
-                   ></iframe>
-                ) : selectedVideo.startsWith("tiktok:") ? (
-                   <iframe 
-                     src={`https://www.tiktok.com/player/v1/${selectedVideo.split(":")[1]}?autoplay=1&music_info=1&description=1`} 
-                     className="w-full h-full"
-                     allow="accelerometer; autoplay; encrypted-media; gyroscope" 
-                     allowFullScreen
-                   ></iframe>
-                ) : ( 
-                   <video 
-                     src={selectedVideo} 
-                     controls 
-                     autoPlay 
-                     className="w-full h-full"
-                   />
-                )}
+              <button
+                onClick={() => setSelectedVideo(null)}
+                className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center text-white/70 hover:text-white transition-all"
+              >
+                <X size={18} />
+              </button>
+
+              {selectedVideo.startsWith("youtube:") ? (
+                <iframe
+                  src={`https://www.youtube.com/embed/${selectedVideo.split(":")[1]}?autoplay=1`}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : selectedVideo.startsWith("tiktok:") ? (
+                <iframe
+                  src={`https://www.tiktok.com/player/v1/${selectedVideo.split(":")[1]}?autoplay=1&music_info=1&description=1`}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  src={selectedVideo}
+                  controls
+                  autoPlay
+                  className="w-full h-full"
+                />
+              )}
             </motion.div>
           </motion.div>
         )}

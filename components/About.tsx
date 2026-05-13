@@ -1,50 +1,135 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code, Video, Camera, Image, PenTool } from "lucide-react";
+import { Target, Lightbulb, Rocket, Heart } from "lucide-react";
+
+const values = [
+  {
+    icon: Target,
+    title: "Problem-First Thinking",
+    description: "I start with understanding your challenge before writing a single line of code.",
+  },
+  {
+    icon: Lightbulb,
+    title: "Always Learning",
+    description: "Technology evolves fast. I stay sharp to bring you the best solutions.",
+  },
+  {
+    icon: Rocket,
+    title: "Ship With Quality",
+    description: "Fast delivery without cutting corners. Every detail matters.",
+  },
+  {
+    icon: Heart,
+    title: "Genuine Partnership",
+    description: "Your success is my success. I treat every project as my own.",
+  },
+];
 
 export default function About() {
   return (
-    <section id="about" className="py-20 bg-black/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="grid md:grid-cols-2 gap-12 items-center"
-        >
-          <div className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 flex items-center justify-center group">
-             <img 
-               src="/projects/my.png" 
-               alt="About Me" 
-               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-             />
-          </div>
-          
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">About Me</h2>
-            <p className="text-gray-400 text-lg mb-6 leading-relaxed">
-              I am a versatile creative professional passionate about bridging the gap between technology and art. 
-              With expertise in programming, video production, photography, and design, I offer a unique 
-              multidisciplinary approach to every project.
-            </p>
-            <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-              Whether it's writing clean code, crafting cinematic stories, capturing timeless moments, 
-              or designing stunning visuals, I am dedicated to delivering excellence.
-            </p>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-white/5 rounded-lg border border-white/10">
-                <h3 className="text-2xl font-bold text-primary mb-1">3+</h3>
-                <p className="text-sm text-gray-400">Years Experience</p>
-              </div>
-              <div className="p-4 bg-white/5 rounded-lg border border-white/10">
-                <h3 className="text-2xl font-bold text-secondary mb-1">20+</h3>
-                <p className="text-sm text-gray-400">Projects Completed</p>
+    <section id="about" className="relative py-32 section-glow">
+      {/* Background accent */}
+      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[150px]" />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+          {/* Left: Photo + Visual */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="relative"
+          >
+            {/* Photo container */}
+            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden glass-card">
+              <img
+                src="/projects/my.png"
+                alt="Nvy — Digital Experience Builder"
+                className="w-full h-full object-cover"
+              />
+              {/* Gradient overlay at bottom */}
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+
+              {/* Floating badge */}
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="glass-card rounded-xl p-4">
+                  <p className="text-sm font-semibold text-white mb-1">
+                    Ahmad Shawity
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Developer · Creator · Problem Solver
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        </motion.div>
+
+            {/* Decorative element */}
+            <div className="absolute -top-4 -right-4 w-24 h-24 rounded-2xl border border-primary/20 -z-10" />
+            <div className="absolute -bottom-4 -left-4 w-32 h-32 rounded-2xl border border-secondary/10 -z-10" />
+          </motion.div>
+
+          {/* Right: Content */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="text-sm font-medium text-primary tracking-wider uppercase mb-4 block">
+              About
+            </span>
+            <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-8">
+              Not just a developer.
+              <br />
+              <span className="gradient-text">A digital partner.</span>
+            </h2>
+
+            <div className="space-y-5 mb-12">
+              <p className="text-muted-foreground leading-relaxed">
+                I&apos;m a multidisciplinary developer and creative based in
+                Banjarmasin, Indonesia. I specialize in building modern web
+                experiences that are not just visually impressive, but
+                genuinely useful for the people who use them.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                With a background spanning full-stack development, video
+                production, and visual design, I bring a unique perspective
+                to every project. I don&apos;t just build websites — I craft
+                digital experiences that help businesses grow and ideas come
+                to life.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Whether you&apos;re a small business looking to go digital, a
+                startup needing a custom platform, or an organization wanting
+                a professional web presence — I&apos;m here to make it happen.
+              </p>
+            </div>
+
+            {/* Values Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              {values.map((value, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
+                  className="group p-4 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-primary/20 transition-all duration-300"
+                >
+                  <value.icon className="w-5 h-5 text-primary-light mb-3" />
+                  <p className="text-sm font-semibold text-white mb-1">
+                    {value.title}
+                  </p>
+                  <p className="text-xs text-muted leading-relaxed">
+                    {value.description}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
