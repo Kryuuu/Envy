@@ -6,9 +6,9 @@
     "image": "/projects/ig-tracker.png",
     "description": "Privacy-first analytics tool that helps users identify unfollowers, mutual follows, and fans from Instagram data exports. All processing happens locally in the browser — zero data sent to servers.",
     "tags": [
-      "Next.js",
-      "TypeScript",
-      "Privacy"
+      "HTML",
+      "CSS",
+      "JavaScript"
     ],
     "link": "/projects/ig-tracker",
     "problem": "Users needed a safe way to analyze Instagram follow data without third-party apps.",

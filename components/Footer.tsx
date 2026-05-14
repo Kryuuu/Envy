@@ -5,7 +5,7 @@ import { ArrowUpRight, Heart } from "lucide-react";
 import { Instagram, Github, Linkedin, Mail } from "lucide-react";
 
 const socialLinks = [
-  { icon: Instagram, href: "https://www.instagram.com/envy.ly_/", label: "Instagram" },
+  { icon: Instagram, href: "https://www.instagram.com/nvy.ly_/", label: "Instagram" },
   { icon: Github, href: "https://github.com/Kryuuu", label: "GitHub" },
   { icon: Linkedin, href: "https://www.linkedin.com/in/ahmad-shawity-8840582a6/", label: "LinkedIn" },
   { icon: Mail, href: "mailto:ahmadshawity@gmail.com", label: "Email" },

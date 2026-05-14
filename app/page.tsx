@@ -7,10 +7,12 @@ import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import LiveChat from "@/components/LiveChat";
+import NeuralBackground from "@/components/NeuralBackground";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <main className="min-h-screen bg-background text-foreground overflow-x-hidden relative">
+      <NeuralBackground />
       <Navbar />
       <Hero />
       <Services />
