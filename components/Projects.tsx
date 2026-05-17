@@ -55,7 +55,7 @@ export default function Projects() {
           </div>
           <a
             href="/projects"
-            className="group inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-white transition-colors"
+            className="group inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-5 text-sm font-semibold text-white transition-all duration-300 hover:border-primary/30 hover:bg-white/[0.09] hover:shadow-[0_8px_30px_-14px_rgba(99,102,241,0.55)]"
           >
             View all projects
             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
