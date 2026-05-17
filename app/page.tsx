@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
+import Certificates from "@/components/Certificates";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -18,6 +19,7 @@ export default function Home() {
       <Services />
       <Projects />
       <Skills />
+      <Certificates limit={4} showViewAll />
       <About />
       <Contact />
       <Footer />

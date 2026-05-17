@@ -1,0 +1,65 @@
+[
+  {
+    "id": "certificate-01",
+    "title": "Praktikum Pemrograman Web 2",
+    "issuer": "Fakultas Teknologi Informasi UNISKA",
+    "category": "Web Development",
+    "date": "31 Juli 2025",
+    "credentialNo": "CERT/FTI/215573805369",
+    "file": "/certificates/certificate-01.pdf"
+  },
+  {
+    "id": "certificate-02",
+    "title": "Praktikum Data Science",
+    "issuer": "Fakultas Teknologi Informasi UNISKA",
+    "category": "Data Science",
+    "date": "31 Juli 2025",
+    "credentialNo": "CERT/FTI/215557027385",
+    "file": "/certificates/certificate-02.pdf"
+  },
+  {
+    "id": "certificate-03",
+    "title": "Praktikum Pemrograman Web 2",
+    "issuer": "Fakultas Teknologi Informasi UNISKA",
+    "category": "Web Development",
+    "date": "11 Januari 2025",
+    "credentialNo": "CERT/FTI/211396539185",
+    "file": "/certificates/certificate-03.pdf"
+  },
+  {
+    "id": "certificate-04",
+    "title": "Praktikum Pemrograman Web 2",
+    "issuer": "Fakultas Teknologi Informasi UNISKA",
+    "category": "Web Development",
+    "date": "4 Agustus 2024",
+    "credentialNo": "CERT/FTI/211379499319",
+    "file": "/certificates/certificate-04.pdf"
+  },
+  {
+    "id": "certificate-05",
+    "title": "Praktikum Jaringan Komputer 1",
+    "issuer": "Fakultas Teknologi Informasi UNISKA",
+    "category": "Networking",
+    "date": "11 Maret 2024",
+    "credentialNo": "CERT/FTI/211362592564",
+    "file": "/certificates/certificate-05.pdf"
+  },
+  {
+    "id": "certificate-06",
+    "title": "Praktikum Pemrograman Web 1",
+    "issuer": "Fakultas Teknologi Informasi UNISKA",
+    "category": "Web Development",
+    "date": "29 Januari 2024",
+    "credentialNo": "CERT/FTI/211329364786",
+    "file": "/certificates/certificate-06.pdf"
+  },
+  {
+    "id": "certificate-07",
+    "title": "Praktikum Algoritma dan Pemrograman 2",
+    "issuer": "Fakultas Teknologi Informasi UNISKA",
+    "category": "Programming",
+    "date": "4 Oktober 2023",
+    "credentialNo": "CERT/FTI/211295680818",
+    "file": "/certificates/certificate-07.pdf"
+  }
+]
