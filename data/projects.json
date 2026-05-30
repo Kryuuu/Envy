@@ -113,5 +113,18 @@
       "Cinematography"
     ],
     "link": "https://youtu.be/c8Z4CauZDMw"
+  },
+  {
+    "id": "10",
+    "title": "Personal Portfolio Website",
+    "category": "Web Development",
+    "image": "/projects/shojunz.png",
+    "description": "Portfolio of Ajis Mustafa, a professional Video Editor specializing in cinematic, modern, and creative visual storytelling.",
+    "tags": [
+      "React",
+      "Tailwind CSS",
+      "Web Development"
+    ],
+    "link": "https://shojunz.my.id/"
   }
 ]
