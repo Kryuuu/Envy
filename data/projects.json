@@ -1,5 +1,18 @@
 [
   {
+    "id": "11",
+    "title": "Lens & Light - Kling Photo",
+    "category": "Web Development",
+    "image": "/projects/klingphoto.png",
+    "description": "Next-Gen Visual Experiences. Capturing moments in dimensions you've never seen before. A futuristic approach to photography, blending cinematic lighting with raw, authentic emotion.",
+    "tags": [
+      "Next.js",
+      "React",
+      "Tailwind CSS"
+    ],
+    "link": "https://klingphoto.vercel.app/"
+  },
+  {
     "id": "8",
     "title": "Instagram Follow Tracker",
     "category": "Web Tool",
