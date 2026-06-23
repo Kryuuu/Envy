@@ -527,15 +527,23 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
-    const saved = localStorage.getItem("nvy-lang") as Language;
-    if (saved && dictionary[saved]) {
-      setLangState(saved);
+    try {
+      const saved = localStorage.getItem("nvy-lang") as Language;
+      if (saved && dictionary[saved]) {
+        setLangState(saved);
+      }
+    } catch (e) {
+      console.warn("localStorage is not available:", e);
     }
   }, []);
 
   const setLang = (newLang: Language) => {
     setLangState(newLang);
-    localStorage.setItem("nvy-lang", newLang);
+    try {
+      localStorage.setItem("nvy-lang", newLang);
+    } catch (e) {
+      console.warn("localStorage is not available:", e);
+    }
   };
 
   const value = {

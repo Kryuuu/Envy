@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, ArrowUpRight, Globe, ChevronDown } from "lucide-react";
 import { useLanguage, Language } from "@/context/LanguageContext";
@@ -23,6 +23,21 @@ export default function Navbar() {
   const { lang, setLang, t } = useLanguage();
   const [isLangOpen, setIsLangOpen] = useState(false);
   const languages: Language[] = ["ID", "EN", "JP", "CN"];
+  const langRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent | TouchEvent) {
+      if (langRef.current && !langRef.current.contains(event.target as Node)) {
+        setIsLangOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, []);
 
   // Map nav items dynamically based on dictionary
   const dynamicNavItems = [
@@ -82,10 +97,9 @@ export default function Navbar() {
             {/* Right Side: Language Switcher + CTA + Mobile Toggle */}
             <div className="flex items-center gap-3 md:gap-4">
               {/* Language Switcher (Visible on both mobile & desktop) */}
-              <div className="relative">
+              <div className="relative" ref={langRef}>
                 <button
                   onClick={() => setIsLangOpen(!isLangOpen)}
-                  onBlur={() => setTimeout(() => setIsLangOpen(false), 200)}
                   className="flex items-center gap-1.5 md:gap-2 px-2.5 py-2 md:px-3 text-xs md:text-sm font-medium text-white/80 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.05] hover:border-white/10 rounded-xl transition-all duration-300"
                 >
                   <Globe className="w-3.5 h-3.5 md:w-4 md:h-4" />
