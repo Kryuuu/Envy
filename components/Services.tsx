@@ -3,58 +3,26 @@
 import { motion } from "framer-motion";
 import {
   Globe,
-  LayoutDashboard,
-  Palette,
   Smartphone,
-  Zap,
-  Code2,
+  Network,
+  Lightbulb,
+  Palette,
+  Video,
   ArrowUpRight,
 } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
-const services = [
-  {
-    icon: Globe,
-    title: "Portfolio & Company Websites",
-    description:
-      "Professional websites that establish credibility and attract customers to your business.",
-    benefit: "Get discovered online",
-  },
-  {
-    icon: Zap,
-    title: "Landing Pages",
-    description:
-      "High-converting pages designed to turn visitors into leads and customers.",
-    benefit: "Increase conversions",
-  },
-  {
-    icon: LayoutDashboard,
-    title: "Custom Web Systems",
-    description:
-      "Dashboards, management tools, and internal systems tailored to your workflow.",
-    benefit: "Streamline operations",
-  },
-  {
-    icon: Palette,
-    title: "UI/UX Implementation",
-    description:
-      "Pixel-perfect frontend development that brings designs to life with smooth interactions.",
-    benefit: "Delight your users",
-  },
-  {
-    icon: Smartphone,
-    title: "Responsive Development",
-    description:
-      "Websites that look and perform beautifully on every device and screen size.",
-    benefit: "Reach every device",
-  },
-  {
-    icon: Code2,
-    title: "Full-Stack Solutions",
-    description:
-      "End-to-end development from database architecture to polished user interfaces.",
-    benefit: "Complete solutions",
-  },
-];
+export default function Services() {
+  const { t } = useLanguage();
+
+  const services = [
+    { icon: Globe, title: t.services.items[0].title, description: t.services.items[0].desc, benefit: t.services.items[0].benefit, color: "#3B82F6" },
+    { icon: Smartphone, title: t.services.items[1].title, description: t.services.items[1].desc, benefit: t.services.items[1].benefit, color: "#06B6D4" },
+    { icon: Network, title: t.services.items[2].title, description: t.services.items[2].desc, benefit: t.services.items[2].benefit, color: "#10B981" },
+    { icon: Lightbulb, title: t.services.items[3].title, description: t.services.items[3].desc, benefit: t.services.items[3].benefit, color: "#F59E0B" },
+    { icon: Palette, title: t.services.items[4].title, description: t.services.items[4].desc, benefit: t.services.items[4].benefit, color: "#8B5CF6" },
+    { icon: Video, title: t.services.items[5].title, description: t.services.items[5].desc, benefit: t.services.items[5].benefit, color: "#EC4899" },
+  ];
 
 const containerVariants = {
   hidden: {},
@@ -74,7 +42,6 @@ const cardVariants = {
   },
 };
 
-export default function Services() {
   return (
     <section id="services" className="relative py-32 overflow-hidden">
       {/* Section background glow */}
@@ -89,17 +56,15 @@ export default function Services() {
           transition={{ duration: 0.6 }}
           className="max-w-2xl mb-20"
         >
-          <span className="text-sm font-medium text-primary tracking-wider uppercase mb-4 block">
-            Services
+          <span className="section-badge mb-6 block w-fit">
+            {t.services.badge}
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-6">
-            Solutions that move your
-            <span className="gradient-text"> business forward</span>
+            {t.services.title1}
+            <span className="gradient-text">{t.services.title2}</span>
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            I focus on building digital experiences that solve real problems —
-            from establishing your online presence to streamlining your
-            operations.
+            {t.services.desc}
           </p>
         </motion.div>
 
@@ -117,9 +82,26 @@ export default function Services() {
               variants={cardVariants}
               className="group glass-card glass-card-hover rounded-2xl p-8 relative"
             >
+              {/* Top glow line */}
+              <div
+                className="absolute inset-x-0 top-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{
+                  background: `linear-gradient(90deg, transparent, ${service.color}60, transparent)`,
+                }}
+              />
+
               {/* Icon */}
-              <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6 group-hover:bg-primary/20 group-hover:border-primary/30 transition-all duration-500">
-                <service.icon className="w-5 h-5 text-primary-light" />
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-500"
+                style={{
+                  backgroundColor: `${service.color}15`,
+                  border: `1px solid ${service.color}25`,
+                }}
+              >
+                <service.icon
+                  className="w-5 h-5 transition-colors duration-300"
+                  style={{ color: service.color }}
+                />
               </div>
 
               {/* Content */}

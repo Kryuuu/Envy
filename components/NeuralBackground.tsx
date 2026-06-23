@@ -86,9 +86,43 @@ export default function NeuralBackground() {
       }
     };
 
+    let lastScrollY = window.scrollY;
+    let lastScrollX = window.scrollX;
+
+    const handleScroll = () => {
+      if (!canvasRef.current) return;
+      const currentScrollY = window.scrollY;
+      const currentScrollX = window.scrollX;
+      const deltaY = currentScrollY - lastScrollY;
+      const deltaX = currentScrollX - lastScrollX;
+      
+      lastScrollY = currentScrollY;
+      lastScrollX = currentScrollX;
+
+      const w = canvasRef.current.width;
+      const h = canvasRef.current.height;
+
+      particlesRef.current.forEach((p) => {
+        // Move opposite to scroll direction (parallax effect)
+        p.y -= deltaY * (p.radius * 0.15); 
+        p.x -= deltaX * (p.radius * 0.15);
+        
+        // Add a little bit of momentum/velocity from the scroll
+        p.vy -= deltaY * 0.0015;
+        p.vx -= deltaX * 0.0015;
+
+        // Wrap around bounds
+        if (p.x < 0) p.x += w;
+        if (p.x > w) p.x -= w;
+        if (p.y < 0) p.y += h;
+        if (p.y > h) p.y -= h;
+      });
+    };
+
     window.addEventListener("resize", handleResize);
     window.addEventListener("mousemove", handleMouse);
     window.addEventListener("touchmove", handleTouch, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     // Animation loop
     const animate = () => {
@@ -128,10 +162,10 @@ export default function NeuralBackground() {
           p.vy *= 0.98;
         }
 
-        // Draw particle
+        // Draw particle — Nvy Blue
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(99, 102, 241, ${p.alpha})`;
+        ctx.fillStyle = `rgba(59, 130, 246, ${p.alpha})`;
         ctx.fill();
       }
 
@@ -147,7 +181,7 @@ export default function NeuralBackground() {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(99, 102, 241, ${opacity})`;
+            ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
             ctx.lineWidth = 1;
             ctx.stroke();
           }
@@ -164,6 +198,7 @@ export default function NeuralBackground() {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouse);
       window.removeEventListener("touchmove", handleTouch);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [resize, createParticles]);
 
@@ -172,11 +207,11 @@ export default function NeuralBackground() {
       {/* Neural particle canvas — covers full viewport, behind everything */}
       <canvas
         ref={canvasRef}
-        className="fixed inset-0 w-full h-full pointer-events-none"
+        className="fixed inset-0 w-full h-[100dvh] pointer-events-none"
         style={{ zIndex: 0 }}
         aria-hidden="true"
       />
-      {/* Cursor glow — follows mouse, subtle purple radial gradient */}
+      {/* Cursor glow — follows mouse, subtle blue radial gradient */}
       <CursorGlow />
     </>
   );

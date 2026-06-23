@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, Github, ArrowUpRight, X, PlayCircle } from "lucide-react";
 import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface Project {
   id?: string;
@@ -25,6 +26,7 @@ import projectsData from "@/data/projects.json";
 const projects: Project[] = projectsData;
 
 export default function Projects() {
+  const { t } = useLanguage();
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -34,6 +36,7 @@ export default function Projects() {
     <section id="projects" className="relative py-32 section-glow">
       {/* Background accents */}
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[180px]" />
+      <div className="absolute top-1/4 left-0 w-[400px] h-[400px] bg-primary/3 rounded-full blur-[150px]" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         {/* Section Header */}
@@ -45,20 +48,20 @@ export default function Projects() {
           className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16"
         >
           <div className="max-w-2xl">
-            <span className="text-sm font-medium text-primary tracking-wider uppercase mb-4 block">
-              Selected Work
+            <span className="section-badge mb-6 block w-fit">
+              {t.projects.badge}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
-              Projects that
-              <span className="gradient-text"> deliver results</span>
+              {t.projects.title1}
+              <span className="gradient-text">{t.projects.title2}</span>
             </h2>
           </div>
           <a
             href="/projects"
-            className="group inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-5 text-sm font-semibold text-white transition-all duration-300 hover:border-primary/30 hover:bg-white/[0.09] hover:shadow-[0_8px_30px_-14px_rgba(99,102,241,0.55)]"
+            className="group inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-5 text-sm font-semibold text-white transition-all duration-300 hover:border-primary/30 hover:bg-white/[0.09] hover:shadow-[0_8px_30px_-14px_rgba(59,130,246,0.55)]"
           >
-            View all projects
-            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            {t.projects.viewAll}
+            <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
         </motion.div>
 
@@ -135,17 +138,22 @@ export default function Projects() {
                     <PlayCircle className="w-6 h-6 text-white" />
                   </button>
                 )}
+
+                {/* Status badge */}
+                <div className="absolute top-4 left-4">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-primary/20 backdrop-blur-md border border-primary/20">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    <span className="text-[10px] font-semibold text-primary-light uppercase tracking-wider">
+                      {project.category}
+                    </span>
+                  </div>
+                </div>
               </div>
 
               {/* Project Info */}
               <div className="p-6 md:p-8">
-                {/* Category */}
-                <span className="text-xs font-semibold text-primary tracking-wider uppercase">
-                  {project.category}
-                </span>
-
                 {/* Title */}
-                <h3 className="text-xl font-bold text-white mt-2 mb-3 leading-tight group-hover:text-primary-light transition-colors duration-300">
+                <h3 className="text-xl font-bold text-white mt-1 mb-3 leading-tight group-hover:text-primary-light transition-colors duration-300">
                   {project.title}
                 </h3>
 
@@ -164,17 +172,16 @@ export default function Projects() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4 pt-4 border-t border-white/[0.06]">
                   {project.link && project.link !== "#" && (
                     <a
                       href={project.link}
-                      target={project.link.startsWith("http") ? "_blank" : undefined}
-                      rel={project.link.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="group/btn inline-flex items-center gap-2 text-sm font-medium text-white hover:text-primary-light transition-colors"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground font-medium text-sm transition-all duration-300 hover:shadow-[0_0_20px_-5px_rgba(59,130,246,0.5)] hover:scale-[1.02]"
                     >
                       <ExternalLink className="w-4 h-4" />
-                      <span>View Project</span>
-                      <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 transition-all duration-300" />
+                      {t.projects.viewProject}
                     </a>
                   )}
                 </div>

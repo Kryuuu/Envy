@@ -12,27 +12,7 @@ import {
   MapPin,
   Clock,
 } from "lucide-react";
-
-const contactMethods = [
-  {
-    icon: MessageCircle,
-    label: "WhatsApp",
-    value: "Chat Langsung",
-    description: "Fastest response — biasanya dalam 1 jam",
-    href: "https://wa.me/6281913715220?text=Halo%20Nvy,%20saya%20tertarik%20dengan%20jasa%20Anda",
-    color: "#25D366",
-    primary: true,
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: "ahmadshawity@gmail.com",
-    description: "Untuk brief project yang lebih detail",
-    href: "mailto:ahmadshawity@gmail.com",
-    color: "#6366f1",
-    primary: false,
-  },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 const socialLinks = [
   { icon: Instagram, href: "https://www.instagram.com/nvy.ly_/", label: "Instagram" },
@@ -41,6 +21,29 @@ const socialLinks = [
 ];
 
 export default function Contact() {
+  const { t } = useLanguage();
+
+  const contactMethods = [
+    {
+      icon: MessageCircle,
+      label: "WhatsApp",
+      value: "Chat Langsung",
+      description: t.contact.waDesc,
+      href: "https://wa.me/6281913715220?text=Halo%20Nvy,%20saya%20tertarik%20dengan%20jasa%20Anda",
+      color: "#25D366",
+      primary: true,
+    },
+    {
+      icon: Mail,
+      label: "Email",
+      value: "ahmadshawity@gmail.com",
+      description: t.contact.emailDesc,
+      href: "mailto:ahmadshawity@gmail.com",
+      color: "#3B82F6",
+      primary: false,
+    },
+  ];
+
   return (
     <section id="contact" className="relative py-32 section-glow">
       {/* Background glow */}
@@ -55,18 +58,16 @@ export default function Contact() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7 }}
           >
-            <span className="text-sm font-medium text-primary tracking-wider uppercase mb-4 block">
-              Get in Touch
+            <span className="section-badge mb-6 block w-fit">
+              {t.contact.badge}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-6">
-              Have an idea?
+              {t.contact.title1}
               <br />
-              <span className="gradient-text">Let&apos;s build it together.</span>
+              <span className="gradient-text">{t.contact.title2}</span>
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed mb-10">
-              Whether you need a website, a custom web system, or a digital
-              presence — I&apos;m ready to help bring your vision to life.
-              Reach out and let&apos;s discuss your project.
+              {t.contact.desc}
             </p>
 
             {/* Quick Info */}
@@ -78,7 +79,7 @@ export default function Contact() {
               <div className="flex items-center gap-3 text-muted-foreground">
                 <Clock className="w-4 h-4 text-primary-light flex-shrink-0" />
                 <span className="text-sm">
-                  Available for freelance — response within 24 hours
+                  {t.contact.availability}
                 </span>
               </div>
             </div>
@@ -92,7 +93,7 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="group w-11 h-11 rounded-full glass-card flex items-center justify-center hover:border-primary/30 transition-all duration-300 hover:-translate-y-1"
+                  className="group w-11 h-11 rounded-xl glass-card flex items-center justify-center hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_4px_20px_-6px_rgba(59,130,246,0.3)]"
                 >
                   <social.icon className="w-4.5 h-4.5 text-muted-foreground group-hover:text-white transition-colors" />
                 </a>
@@ -127,10 +128,18 @@ export default function Contact() {
                       : "glass-card glass-card-hover"
                   }`}
                 >
+                  {/* Top glow line */}
+                  <div
+                    className="absolute inset-x-0 top-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      background: `linear-gradient(90deg, transparent, ${method.color}60, transparent)`,
+                    }}
+                  />
+
                   <div className="flex items-start gap-5">
                     {/* Icon */}
                     <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300"
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110"
                       style={{
                         backgroundColor: `${method.color}15`,
                         border: `1px solid ${method.color}30`,

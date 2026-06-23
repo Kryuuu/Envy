@@ -61,5 +61,14 @@
     "date": "4 Oktober 2023",
     "credentialNo": "CERT/FTI/211295680818",
     "file": "/certificates/certificate-07.pdf"
+  },
+  {
+    "id": "certificate-08",
+    "title": "Surat Rekomendasi",
+    "issuer": "Rumah BUMN",
+    "category": "Recommendation",
+    "date": "15 April 2026",
+    "credentialNo": "013/RB/04/SR/2026",
+    "file": "/certificates/Surat Rekomendasi RB.pdf"
   }
 ]
