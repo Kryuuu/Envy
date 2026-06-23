@@ -79,18 +79,18 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Desktop CTA & Language */}
-            <div className="hidden md:flex items-center gap-4">
-              {/* Language Switcher */}
+            {/* Right Side: Language Switcher + CTA + Mobile Toggle */}
+            <div className="flex items-center gap-3 md:gap-4">
+              {/* Language Switcher (Visible on both mobile & desktop) */}
               <div className="relative">
                 <button
                   onClick={() => setIsLangOpen(!isLangOpen)}
                   onBlur={() => setTimeout(() => setIsLangOpen(false), 200)}
-                  className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white/80 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.05] hover:border-white/10 rounded-xl transition-all duration-300"
+                  className="flex items-center gap-1.5 md:gap-2 px-2.5 py-2 md:px-3 text-xs md:text-sm font-medium text-white/80 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.05] hover:border-white/10 rounded-xl transition-all duration-300"
                 >
-                  <Globe className="w-4 h-4" />
+                  <Globe className="w-3.5 h-3.5 md:w-4 md:h-4" />
                   <span>{lang}</span>
-                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${isLangOpen ? "rotate-180" : ""}`} />
+                  <ChevronDown className={`w-3 h-3 md:w-3.5 md:h-3.5 transition-transform duration-300 ${isLangOpen ? "rotate-180" : ""}`} />
                 </button>
 
                 <AnimatePresence>
@@ -100,7 +100,7 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 top-full mt-2 w-24 p-1 bg-surface-elevated/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.5)]"
+                      className="absolute right-0 top-full mt-2 w-24 p-1 bg-surface-elevated/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.5)] z-50"
                     >
                       {languages.map((l) => (
                         <button
@@ -123,23 +123,24 @@ export default function Navbar() {
                 </AnimatePresence>
               </div>
 
+              {/* Desktop CTA */}
               <a
                 href="#contact"
-                className="group flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.08] hover:border-primary/30 rounded-xl transition-all duration-300"
+                className="hidden md:flex group items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.08] hover:border-primary/30 rounded-xl transition-all duration-300"
               >
                 <span>{t.nav.letsTalk}</span>
                 <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
               </a>
-            </div>
 
-            {/* Mobile Toggle */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden relative w-10 h-10 flex items-center justify-center text-muted-foreground hover:text-white transition-colors"
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+              {/* Mobile Toggle */}
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="md:hidden relative w-10 h-10 flex items-center justify-center text-muted-foreground hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.05] rounded-xl transition-all"
+                aria-label="Toggle menu"
+              >
+                {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
         </div>
       </motion.nav>
@@ -166,27 +167,7 @@ export default function Navbar() {
             </motion.a>
           ))}
           
-          {/* Mobile Language Switcher */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ delay: dynamicNavItems.length * 0.1 + 0.1, duration: 0.4 }}
-            className="grid grid-cols-4 w-full max-w-[280px] mt-4 bg-white/[0.03] p-1.5 rounded-2xl border border-white/[0.08]"
-          >
-            {languages.map((l) => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                className={`py-3 rounded-xl text-sm font-bold transition-all ${
-                  lang === l
-                    ? "bg-primary text-white shadow-md shadow-primary/20"
-                    : "text-muted-foreground hover:text-white hover:bg-white/[0.05]"
-                }`}
-              >
-                {l}
-              </button>
-            ))}
-          </motion.div>
+
           <motion.a
             href="#contact"
             onClick={() => setIsOpen(false)}
