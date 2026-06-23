@@ -171,16 +171,16 @@ export default function Navbar() {
             initial={{ opacity: 0, y: 20 }}
             animate={isOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: dynamicNavItems.length * 0.1 + 0.1, duration: 0.4 }}
-            className="flex items-center gap-3 mt-4"
+            className="grid grid-cols-4 w-full max-w-[280px] mt-4 bg-white/[0.03] p-1.5 rounded-2xl border border-white/[0.08]"
           >
             {languages.map((l) => (
               <button
                 key={l}
                 onClick={() => setLang(l)}
-                className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold transition-all ${
+                className={`py-3 rounded-xl text-sm font-bold transition-all ${
                   lang === l
-                    ? "bg-primary/20 border border-primary/30 text-primary-light"
-                    : "bg-white/[0.05] border border-white/5 text-muted-foreground hover:bg-white/[0.1] hover:text-white"
+                    ? "bg-primary text-white shadow-md shadow-primary/20"
+                    : "text-muted-foreground hover:text-white hover:bg-white/[0.05]"
                 }`}
               >
                 {l}
