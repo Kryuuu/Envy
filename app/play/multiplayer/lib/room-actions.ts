@@ -1,7 +1,6 @@
 'use server';
 
 import { supabase } from './supabase';
-import { randomBytes } from 'crypto';
 
 function generateSimpleRoomCode() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -13,7 +12,7 @@ function generateSimpleRoomCode() {
 }
 
 function generateToken() {
-  return randomBytes(16).toString('hex');
+  return crypto.randomUUID();
 }
 
 export async function createRoomAction(hostName: string, maxPlayers: number) {
