@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@supabase/supabase-js": "^2.112.2",
     "chess.js": "^1.0.0-beta.8",
     "dotenv": "^17.2.3",
     "framer-motion": "^12.29.2",
