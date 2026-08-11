@@ -171,7 +171,7 @@ export default function IGTracker() {
             <h1 className="text-3xl sm:text-4xl font-bold text-white mb-1">Dashboard</h1>
             <p className="text-gray-500 text-sm">Analisis data following & followers Instagram kamu</p>
           </div>
-          <p className="text-gray-600 text-sm hidden sm:block">{new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})}</p>
+          <p suppressHydrationWarning className="text-gray-600 text-sm hidden sm:block">{new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})}</p>
         </div>
 
         {/* Stats Cards */}

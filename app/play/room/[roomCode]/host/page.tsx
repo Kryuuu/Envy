@@ -16,9 +16,16 @@ export default function HostLobbyPage({ params }: { params: Promise<{ roomCode: 
   const { room, players, progress, isLoading, error } = useRoomRealtime(roomId || '');
   
   const [hostToken, setHostToken] = useState<string | null>(null);
+  const [startLevel, setStartLevel] = useState(1);
   const [copied, setCopied] = useState(false);
   const [isStarting, setIsStarting] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lvl = parseInt(urlParams.get('level') || '1', 10);
+    setStartLevel(isNaN(lvl) ? 1 : lvl);
+  }, []);
 
   useEffect(() => {
     if (roomId) {
@@ -44,7 +51,7 @@ export default function HostLobbyPage({ params }: { params: Promise<{ roomCode: 
   const handleStart = async () => {
     if (!roomId || !hostToken) return;
     setIsStarting(true);
-    const res = await startRoomAction(roomId, hostToken);
+    const res = await startRoomAction(roomId, hostToken, startLevel);
     if (!res.success) {
       alert(res.error);
       setIsStarting(false);

@@ -106,14 +106,14 @@ export async function joinRoomAction(roomCode: string, nickname: string) {
   return { success: true, room, player, playerToken };
 }
 
-export async function startRoomAction(roomId: string, hostToken: string) {
+export async function startRoomAction(roomId: string, hostToken: string, startLevel: number = 1) {
   const { data: room } = await supabase.from('rooms').select('host_token, status').eq('id', roomId).single();
   if (!room || room.host_token !== hostToken) return { success: false, error: 'Unauthorized' };
   if (room.status !== 'waiting') return { success: false, error: 'Room tidak dalam status waiting' };
 
   // Start room and create session
   await supabase.from('rooms').update({ status: 'playing', started_at: new Date().toISOString() }).eq('id', roomId);
-  const { data: session } = await supabase.from('game_sessions').insert({ room_id: roomId }).select().single();
+  const { data: session } = await supabase.from('game_sessions').insert({ room_id: roomId, current_level: startLevel }).select().single();
 
   // Update players to playing
   await supabase.from('room_players').update({ status: 'playing' }).eq('room_id', roomId).eq('status', 'connected');

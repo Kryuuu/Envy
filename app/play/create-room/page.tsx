@@ -10,6 +10,8 @@ export default function CreateRoomPage() {
   const router = useRouter();
   const [hostName, setHostName] = useState('');
   const [maxPlayers, setMaxPlayers] = useState(6);
+  const [selectedGame, setSelectedGame] = useState('robot-maze');
+  const [selectedLevel, setSelectedLevel] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -23,7 +25,7 @@ export default function CreateRoomPage() {
     if (res.success && res.room) {
       // Store host token locally for authentication on host dashboard
       localStorage.setItem(`nvy_host_${res.room.id}`, res.hostToken || '');
-      router.push(`/play/room/${res.room.room_code}/host`);
+      router.push(`/play/room/${res.room.room_code}/host?game=${selectedGame}&level=${selectedLevel}`);
     } else {
       setError(res.error || 'Terjadi kesalahan saat membuat room.');
       setIsLoading(false);
@@ -43,12 +45,33 @@ export default function CreateRoomPage() {
         <p className="cq-subtitle">Buat room untuk belajar dan bermain bersama.</p>
 
         <form onSubmit={handleCreate} className="multiplayer-form" style={{ marginTop: '2rem', textAlign: 'left', background: 'rgba(255,255,255,0.03)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.08)' }}>
-          <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#CBD5E1', fontSize: '0.9rem', fontWeight: 600, marginBottom: '0.5rem' }}><Gamepad2 size={16} /> Game</label>
-            <div style={{ padding: '0.75rem', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.3)', borderRadius: '10px', color: '#60A5FA', fontWeight: 600 }}>
-              🤖 Robot Maze
+          <div className="form-group" style={{ marginBottom: '1.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#CBD5E1', fontSize: '0.9rem', fontWeight: 600, marginBottom: '0.5rem' }}><Gamepad2 size={16} /> Game</label>
+              <select 
+                value={selectedGame} 
+                onChange={(e) => { setSelectedGame(e.target.value); setSelectedLevel(1); }}
+                style={{ width: '100%', padding: '0.75rem', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff', fontSize: '0.95rem', outline: 'none', appearance: 'none' }}
+              >
+                <option value="robot-maze">🤖 Robot Maze (10 Level)</option>
+                <option value="bug-hunter">🐛 Bug Hunter (12 Level)</option>
+                <option value="pixel-coding">🎨 Pixel Coding (12 Level)</option>
+                <option value="code-quiz">🧠 Code Quiz</option>
+              </select>
             </div>
-            <p style={{ fontSize: '0.75rem', color: '#64748B', marginTop: '0.4rem' }}>Game lain akan segera menyusul.</p>
+            
+            <div>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#CBD5E1', fontSize: '0.9rem', fontWeight: 600, marginBottom: '0.5rem' }}>🎯 Level Mulai</label>
+              <select 
+                value={selectedLevel} 
+                onChange={(e) => setSelectedLevel(Number(e.target.value))}
+                style={{ width: '100%', padding: '0.75rem', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff', fontSize: '0.95rem', outline: 'none', appearance: 'none' }}
+              >
+                {Array.from({ length: selectedGame === 'robot-maze' ? 10 : selectedGame === 'bug-hunter' || selectedGame === 'pixel-coding' ? 12 : 5 }).map((_, i) => (
+                  <option key={i + 1} value={i + 1}>Level {i + 1}</option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div className="form-group" style={{ marginBottom: '1.5rem' }}>

@@ -9,18 +9,30 @@ export default function LiveChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Array<{id: number, text: string, sender: 'user' | 'bot', time: string, type?: 'text' | 'contact'}>>([
-    { id: 1, text: "Halo! 👋 Ada yang bisa saya bantu dengan project Anda?", sender: "bot", time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}), type: 'text' }
+    { id: 1, text: "Halo! 👋 Ada yang bisa saya bantu dengan project Anda?", sender: "bot", time: "", type: 'text' }
   ]);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isOpen]);
+    setMounted(true);
+    setMessages(prev => {
+      const updated = [...prev];
+      updated[0].time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      return updated;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      scrollToBottom();
+    }
+  }, [messages, isOpen, mounted]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
