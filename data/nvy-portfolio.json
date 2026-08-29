@@ -1,0 +1,132 @@
+{
+  "hero": {
+    "title": "NVY Studio",
+    "subtitle": "Capturing moments from the ground and the sky.",
+    "description": "We specialize in premium Photography, Videography, and Aerial Drone Services. Our minimalist approach focuses on the raw beauty of our subjects, delivering clean, striking, and timeless visuals."
+  },
+  "services": [
+    {
+      "id": "photography",
+      "name": "Photography",
+      "description": "Portraits, events, and commercial photography with a minimalist touch.",
+      "pricing": [
+        {
+          "package": "Wisuda",
+          "price": "350k"
+        },
+        {
+          "package": "Wedding",
+          "price": "500k"
+        },
+        {
+          "package": "Custom",
+          "price": "Bisa Request"
+        }
+      ]
+    },
+    {
+      "id": "videography",
+      "name": "Videography",
+      "description": "Cinematic storytelling that brings your vision to life.",
+      "pricing": [
+        {
+          "package": "Wisuda",
+          "price": "250k"
+        },
+        {
+          "package": "Wedding",
+          "price": "400k"
+        },
+        {
+          "package": "Custom",
+          "price": "Bisa Request"
+        }
+      ]
+    },
+    {
+      "id": "drone",
+      "name": "Drone Services",
+      "description": "Breathtaking aerial perspectives using cutting-edge drone technology.",
+      "pricing": [
+        {
+          "package": "Rental",
+          "price": "350k / 2 Baterai"
+        }
+      ]
+    }
+  ],
+  "portfolio": [
+    {
+      "id": 7,
+      "title": "wadfsawfwa",
+      "category": "Photography",
+      "imageUrl": "/nvy/wadfsawfwa-928778/1787124928781-500691529-Screenshot20260218113515.png",
+      "mediaType": "image",
+      "description": "awdsaf",
+      "media": [
+        {
+          "url": "/nvy/wadfsawfwa-928778/1787124928781-141121066-Screenshot20260218113419.png",
+          "type": "image"
+        },
+        {
+          "url": "/nvy/wadfsawfwa-928778/1787124928781-500691529-Screenshot20260218113515.png",
+          "type": "image"
+        },
+        {
+          "url": "/nvy/wadfsawfwa-928778/1787124928781-456655719-Screenshot20260220112626.png",
+          "type": "image"
+        },
+        {
+          "url": "/nvy/wadfsawfwa-928778/1787124928781-272402608-Screenshot20260223123316.png",
+          "type": "image"
+        },
+        {
+          "url": "/nvy/wadfsawfwa-928778/1787124928781-956845018-Screenshot20260223124011.png",
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Minimalist Architecture",
+      "category": "Photography",
+      "imageUrl": "https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "description": "Clean lines and geometric shapes in modern architecture."
+    },
+    {
+      "id": 2,
+      "title": "Ocean Horizon",
+      "category": "Drone",
+      "imageUrl": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "description": "Aerial view of the endless ocean horizon at sunset."
+    },
+    {
+      "id": 3,
+      "title": "Urban Stillness",
+      "category": "Photography",
+      "imageUrl": "https://images.unsplash.com/photo-1449844908441-8829872d2607?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "description": "Capturing the quiet moments in a bustling city."
+    },
+    {
+      "id": 4,
+      "title": "Brand Campaign",
+      "category": "Videography",
+      "imageUrl": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "description": "A sleek and modern video campaign for a lifestyle brand."
+    },
+    {
+      "id": 5,
+      "title": "Mountain Peaks",
+      "category": "Drone",
+      "imageUrl": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "description": "High altitude drone photography of snow-capped mountains."
+    },
+    {
+      "id": 6,
+      "title": "Portrait Sessions",
+      "category": "Photography",
+      "imageUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "description": "Natural light portraits focusing on authentic expressions."
+    }
+  ]
+}

@@ -271,6 +271,9 @@ export default function AdminPage() {
           </div>
           
           <div className="flex items-center gap-3">
+             <Link href="/admin/jadwal-ngajar" className="flex items-center gap-2 px-4 py-2.5 bg-gray-500/10 text-gray-300 border border-gray-500/20 rounded-full font-medium hover:bg-gray-500/20 transition-all text-sm">
+                Jadwal Ngajar
+             </Link>
              <button 
                onClick={runDiagnostics}
                className="flex items-center gap-2 px-4 py-2.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full font-medium hover:bg-blue-500/20 transition-all text-sm"
