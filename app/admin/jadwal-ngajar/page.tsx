@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2, Edit2, X, ArrowLeft, Loader2, Save, Send } from "lucide-react";
+import { Plus, Trash2, Edit2, X, ArrowLeft, Loader2, Save, Send, BookOpen, Clock, User, FileText, Calendar, Bell, CheckCircle2, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 
@@ -172,90 +172,136 @@ export default function JadwalNgajarPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-6 md:p-12 relative">
+    <div className="min-h-screen bg-[#030712] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] text-slate-200 p-6 md:p-12 relative overflow-hidden font-sans">
+      {/* Background decorations */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-600/20 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/20 blur-[120px] pointer-events-none" />
+
       {toast && (
-        <div className={`fixed top-6 right-6 z-50 px-6 py-3 rounded-lg text-white font-bold shadow-lg animate-in slide-in-from-right ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'}`}>
+        <div className={`fixed top-6 right-6 z-50 px-6 py-4 rounded-2xl text-white font-medium shadow-2xl animate-in slide-in-from-right flex items-center gap-3 backdrop-blur-md border ${toast.type === 'error' ? 'bg-red-500/90 border-red-400' : 'bg-emerald-500/90 border-emerald-400'}`}>
+            {toast.type === 'error' ? <AlertCircle size={20} /> : <CheckCircle2 size={20} />}
             {toast.message}
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
-          <div className="flex items-center gap-4">
-            <Link href="/admin" className="p-3 bg-white/5 hover:bg-white/10 rounded-full transition-colors border border-white/10">
-              <ArrowLeft size={20} />
+      <div className="max-w-6xl mx-auto relative z-10">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+          <div className="flex items-center gap-5">
+            <Link href="/admin" className="p-3 bg-slate-800/50 hover:bg-slate-700/50 backdrop-blur-md rounded-2xl transition-all border border-slate-700 hover:border-slate-600 shadow-lg hover:shadow-xl hover:-translate-y-0.5 group">
+              <ArrowLeft size={22} className="text-slate-300 group-hover:text-white transition-colors" />
             </Link>
             <div>
-                 <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">Jadwal Ngajar</h1>
-                 <p className="text-gray-500 text-sm mt-1">Kelola jadwal dan laporan akhir mengajar</p>
+                 <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400 drop-shadow-sm">Jadwal Ngajar</h1>
+                 <p className="text-slate-400 text-sm mt-2 font-medium">Kelola jadwal, notifikasi Telegram, dan laporan akhir secara efisien.</p>
             </div>
           </div>
           
           <button 
             onClick={openNewModal}
-            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 rounded-full font-medium hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20"
+            className="group flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl font-semibold hover:from-blue-500 hover:to-indigo-500 transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] hover:-translate-y-1 border border-blue-400/20 text-white"
           >
-            <Plus size={20} /> Tambah Jadwal
+            <Plus size={20} className="group-hover:rotate-90 transition-transform duration-300" /> Tambah Jadwal
           </button>
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-20"><Loader2 className="animate-spin text-blue-500" size={40} /></div>
+          <div className="flex flex-col justify-center items-center py-32 space-y-4">
+            <div className="relative">
+              <div className="absolute inset-0 rounded-full blur-xl bg-blue-500/30 animate-pulse"></div>
+              <Loader2 className="animate-spin text-blue-400 relative z-10" size={48} />
+            </div>
+            <p className="text-slate-400 font-medium animate-pulse">Memuat data jadwal...</p>
+          </div>
         ) : (
-          <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+          <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800/80 rounded-3xl overflow-hidden shadow-2xl">
             <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead className="bg-black/50 border-b border-white/10 text-gray-400 text-sm">
+              <table className="w-full text-left border-collapse">
+                <thead className="bg-slate-950/50 border-b border-slate-800 text-slate-400 text-sm font-semibold uppercase tracking-wider">
                   <tr>
-                    <th className="px-6 py-4 font-medium">Nama Murid</th>
-                    <th className="px-6 py-4 font-medium">Mapel & Materi</th>
-                    <th className="px-6 py-4 font-medium">Jadwal</th>
-                    <th className="px-6 py-4 font-medium">Status Notif</th>
-                    <th className="px-6 py-4 font-medium text-right">Aksi</th>
+                    <th className="px-8 py-5">Nama Murid</th>
+                    <th className="px-8 py-5">Mapel & Materi</th>
+                    <th className="px-8 py-5">Waktu</th>
+                    <th className="px-8 py-5">Status Notif</th>
+                    <th className="px-8 py-5 text-right">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-slate-800/50">
                   {jadwalList.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
-                        Belum ada jadwal mengajar
+                      <td colSpan={5} className="px-8 py-16 text-center">
+                        <div className="flex flex-col items-center justify-center space-y-3">
+                          <div className="h-16 w-16 bg-slate-800/50 rounded-full flex items-center justify-center text-slate-500 mb-2">
+                            <Calendar size={32} />
+                          </div>
+                          <p className="text-slate-300 font-medium text-lg">Belum ada jadwal mengajar</p>
+                          <p className="text-slate-500 text-sm max-w-xs">Klik tombol "Tambah Jadwal" di atas untuk membuat jadwal baru.</p>
+                        </div>
                       </td>
                     </tr>
                   ) : (
                     jadwalList.map((j) => (
-                      <tr key={j.id} className="hover:bg-white/5 transition-colors">
-                        <td className="px-6 py-4 font-medium">{j.nama_murid}</td>
-                        <td className="px-6 py-4">
-                          <div className="text-blue-400 font-medium">{j.mata_pelajaran}</div>
-                          <div className="text-gray-400 text-sm">{j.materi}</div>
+                      <tr key={j.id} className="hover:bg-slate-800/30 transition-all duration-200 group">
+                        <td className="px-8 py-5">
+                          <div className="flex items-center gap-4">
+                            <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center text-blue-400 border border-blue-500/20 shadow-inner">
+                              <User size={18} />
+                            </div>
+                            <span className="font-bold text-slate-200 text-base">{j.nama_murid}</span>
+                          </div>
                         </td>
-                        <td className="px-6 py-4">
-                          {new Date(j.jam).toLocaleString('id-ID', {
-                            dateStyle: 'medium',
-                            timeStyle: 'short'
-                          })}
+                        <td className="px-8 py-5">
+                          <div className="flex items-center gap-2 mb-1.5">
+                            <BookOpen size={16} className="text-purple-400" />
+                            <span className="text-purple-300 font-bold">{j.mata_pelajaran}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-slate-400 text-sm font-medium">
+                            <FileText size={14} />
+                            <span className="truncate max-w-[200px]">{j.materi || '-'}</span>
+                          </div>
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-8 py-5">
+                          <div className="flex flex-col gap-1.5">
+                            <div className="flex items-center gap-2 text-slate-200 font-medium">
+                              <Calendar size={15} className="text-emerald-400" />
+                              <span>{new Date(j.jam).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' })}</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-slate-400 text-sm">
+                              <Clock size={15} className="text-emerald-500/70" />
+                              <span>{new Date(j.jam).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-8 py-5">
                           {j.notif_sent ? (
-                            <span className="px-2 py-1 bg-green-500/10 text-green-400 text-xs rounded-full border border-green-500/20">Terkirim</span>
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/10 text-emerald-400 text-xs font-bold rounded-xl border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]">
+                              <CheckCircle2 size={14} /> Terkirim
+                            </span>
                           ) : (
-                            <span className="px-2 py-1 bg-yellow-500/10 text-yellow-400 text-xs rounded-full border border-yellow-500/20">Menunggu</span>
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 text-amber-400 text-xs font-bold rounded-xl border border-amber-500/20 shadow-[0_0_10px_rgba(245,158,11,0.1)]">
+                              <Bell size={14} /> Menunggu
+                            </span>
                           )}
                         </td>
-                        <td className="px-6 py-4 text-right">
-                          <div className="flex justify-end gap-2">
+                        <td className="px-8 py-5 text-right">
+                          <div className="flex justify-end gap-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
                             <button 
                               onClick={() => handleTestNotif(j)} 
                               title="Test Notifikasi Telegram"
-                              className="p-2 text-blue-400 hover:text-white bg-blue-500/10 hover:bg-blue-500 rounded-lg transition-colors"
+                              className="p-2.5 text-blue-400 hover:text-white bg-blue-500/10 hover:bg-blue-600 rounded-xl transition-all hover:shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:-translate-y-0.5"
                             >
-                              <Send size={16} />
+                              <Send size={18} />
                             </button>
-                            <button onClick={() => openEditModal(j)} className="p-2 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors">
-                              <Edit2 size={16} />
+                            <button 
+                              onClick={() => openEditModal(j)} 
+                              className="p-2.5 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition-all border border-slate-700 hover:border-slate-600 hover:-translate-y-0.5"
+                            >
+                              <Edit2 size={18} />
                             </button>
-                            <button onClick={() => handleDelete(j.id)} className="p-2 text-red-400 hover:text-white bg-red-500/10 hover:bg-red-500 rounded-lg transition-colors">
-                              <Trash2 size={16} />
+                            <button 
+                              onClick={() => handleDelete(j.id)} 
+                              className="p-2.5 text-red-400 hover:text-white bg-red-500/10 hover:bg-red-600 rounded-xl transition-all hover:shadow-[0_0_15px_rgba(220,38,38,0.4)] hover:-translate-y-0.5"
+                            >
+                              <Trash2 size={18} />
                             </button>
                           </div>
                         </td>
@@ -271,79 +317,100 @@ export default function JadwalNgajarPage() {
 
       {/* MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="w-full max-w-lg bg-gray-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
-            <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
-              <h2 className="text-xl font-bold">{editingJadwal ? "Edit Jadwal" : "Tambah Jadwal Baru"}</h2>
-              <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors"><X size={20} /></button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-300">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
+          <div className="relative w-full max-w-xl bg-slate-900 border border-slate-700 rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden animate-in zoom-in-95 duration-300">
+            
+            {/* Modal Header */}
+            <div className="px-8 py-6 border-b border-slate-800 bg-slate-900/50 flex justify-between items-center relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500"></div>
+              <h2 className="text-2xl font-bold text-white">{editingJadwal ? "Edit Jadwal Mengajar" : "Buat Jadwal Baru"}</h2>
+              <button 
+                onClick={() => setIsModalOpen(false)} 
+                className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors"
+              >
+                <X size={24} />
+              </button>
             </div>
             
-            <div className="p-6 space-y-4 overflow-y-auto max-h-[70vh]">
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Nama Murid *</label>
+            {/* Modal Body */}
+            <div className="p-8 space-y-6 overflow-y-auto max-h-[65vh] custom-scrollbar">
+              <div className="space-y-1.5">
+                <label className="text-sm font-bold text-slate-300 flex items-center gap-2">
+                  <User size={16} className="text-blue-400" /> Nama Murid *
+                </label>
                 <input 
                   value={formData.nama_murid}
                   onChange={e => setFormData({...formData, nama_murid: e.target.value})}
-                  className="w-full bg-black/50 border border-white/10 rounded-lg p-3 focus:border-blue-500 outline-none"
-                  placeholder="Contoh: Budi"
+                  className="w-full bg-slate-950/50 border border-slate-700 rounded-xl p-3.5 text-white placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                  placeholder="Contoh: Budi Susanto"
                 />
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Mata Pelajaran *</label>
-                <input 
-                  value={formData.mata_pelajaran}
-                  onChange={e => setFormData({...formData, mata_pelajaran: e.target.value})}
-                  className="w-full bg-black/50 border border-white/10 rounded-lg p-3 focus:border-blue-500 outline-none"
-                  placeholder="Contoh: Matematika"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-1.5">
+                  <label className="text-sm font-bold text-slate-300 flex items-center gap-2">
+                    <BookOpen size={16} className="text-purple-400" /> Mata Pelajaran *
+                  </label>
+                  <input 
+                    value={formData.mata_pelajaran}
+                    onChange={e => setFormData({...formData, mata_pelajaran: e.target.value})}
+                    className="w-full bg-slate-950/50 border border-slate-700 rounded-xl p-3.5 text-white placeholder-slate-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all"
+                    placeholder="Contoh: Matematika"
+                  />
+                </div>
+                
+                <div className="space-y-1.5">
+                  <label className="text-sm font-bold text-slate-300 flex items-center gap-2">
+                    <Clock size={16} className="text-emerald-400" /> Waktu Mengajar *
+                  </label>
+                  <input 
+                    type="datetime-local"
+                    value={formData.jam}
+                    onChange={e => setFormData({...formData, jam: e.target.value})}
+                    className="w-full bg-slate-950/50 border border-slate-700 rounded-xl p-3.5 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all [color-scheme:dark]"
+                  />
+                </div>
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Materi *</label>
+              <div className="space-y-1.5">
+                <label className="text-sm font-bold text-slate-300 flex items-center gap-2">
+                  <FileText size={16} className="text-slate-400" /> Topik / Materi *
+                </label>
                 <input 
                   value={formData.materi}
                   onChange={e => setFormData({...formData, materi: e.target.value})}
-                  className="w-full bg-black/50 border border-white/10 rounded-lg p-3 focus:border-blue-500 outline-none"
-                  placeholder="Topik yang dibahas"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Jam Mengajar *</label>
-                <input 
-                  type="datetime-local"
-                  value={formData.jam}
-                  onChange={e => setFormData({...formData, jam: e.target.value})}
-                  className="w-full bg-black/50 border border-white/10 rounded-lg p-3 focus:border-blue-500 outline-none [color-scheme:dark]"
+                  className="w-full bg-slate-950/50 border border-slate-700 rounded-xl p-3.5 text-white placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                  placeholder="Detail materi yang akan dibahas"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Laporan Akhir (Opsional)</label>
+              <div className="space-y-1.5">
+                <label className="text-sm font-bold text-slate-300">Laporan Akhir (Opsional)</label>
                 <textarea 
                   value={formData.laporan_akhir}
                   onChange={e => setFormData({...formData, laporan_akhir: e.target.value})}
-                  className="w-full bg-black/50 border border-white/10 rounded-lg p-3 focus:border-blue-500 outline-none min-h-[100px]"
-                  placeholder="Diisi setelah selesai..."
+                  className="w-full bg-slate-950/50 border border-slate-700 rounded-xl p-3.5 text-white placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all min-h-[120px] resize-y"
+                  placeholder="Bisa diisi setelah sesi mengajar selesai..."
                 />
               </div>
             </div>
 
-            <div className="p-6 border-t border-white/10 bg-white/5 flex justify-end gap-3">
+            {/* Modal Footer */}
+            <div className="px-8 py-5 border-t border-slate-800 bg-slate-900/50 flex justify-end gap-4">
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="px-6 py-2 rounded-lg hover:bg-white/10 transition-colors"
+                className="px-6 py-2.5 rounded-xl font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
               >
                 Batal
               </button>
               <button 
                 onClick={handleSave}
                 disabled={saving}
-                className="px-6 py-2 bg-blue-600 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 disabled:opacity-50"
+                className="px-8 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl font-bold text-white hover:from-blue-500 hover:to-indigo-500 transition-all shadow-[0_0_15px_rgba(79,70,229,0.3)] hover:shadow-[0_0_25px_rgba(79,70,229,0.5)] flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
-                Simpan
+                {saving ? 'Menyimpan...' : 'Simpan Jadwal'}
               </button>
             </div>
           </div>
