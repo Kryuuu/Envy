@@ -29,7 +29,7 @@ export async function GET() {
 
     for (const jadwal of jadwalList || []) {
       const message = `🔔 *PENGINGAT MENGAJAR*\n\n`
-        + `Halo! Anda ada jadwal mengajar 10 menit lagi:\n`
+        + `Halo! Jadwal mengajar Anda akan dimulai sebentar lagi (kurang dari 15 menit):\n`
         + `- *Murid*: ${jadwal.nama_murid}\n`
         + `- *Mata Pelajaran*: ${jadwal.mata_pelajaran}\n`
         + `- *Materi*: ${jadwal.materi}\n`

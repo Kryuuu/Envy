@@ -139,5 +139,18 @@
       "Web Development"
     ],
     "link": "https://shojunz.my.id/"
+  },
+  {
+    "id": "12",
+    "title": "NeuroTask",
+    "category": "Web Development",
+    "image": "/projects/NeuroTask.png",
+    "description": "Your Second Brain for Academic Survival. Platform produktivitas mahasiswa untuk memecah tugas besar menjadi langkah kecil.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "link": "https://kryuuu.github.io/NeuroTask/"
   }
 ]
