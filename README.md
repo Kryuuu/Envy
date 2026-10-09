@@ -34,3 +34,5 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+buatkan aku web portofolio dengan page baru menggunakan link ini alias folder baru nama web portonya noir frame buatkan seminimalis muingkin dan keren dari animasi tambahkan juga element 3d camera nya yang mengikuti move cursor dan ada pricelistnya

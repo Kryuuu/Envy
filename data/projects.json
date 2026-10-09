@@ -1,5 +1,22 @@
 [
   {
+    "id": "13",
+    "title": "NOIR FRAME — Studio Fotografi & Videografi Sinematik",
+    "category": "Web Development",
+    "image": "/projects/noirframe.png",
+    "description": "Website resmi studio kreatif visual NOIR FRAME. Menampilkan kurasi monograf visual fotografi & videografi sinematik berkelas, pricing interaktif, dan sistem konsultasi terintegrasi.",
+    "tags": [
+      "Next.js",
+      "React",
+      "Tailwind CSS",
+      "TypeScript"
+    ],
+    "link": "https://noirframe.my.id",
+    "problem": "Studio visual membutuhkan web portfolio digital dengan standar estetika sinematik tinggi, kurasi arsip visual interaktif, dan alur booking langsung via WhatsApp.",
+    "solution": "Merancang dan membangun website bertema dark editorial chiaroscuro yang responsif, berkecepatan tinggi, dengan micro-interaksi dinamis.",
+    "impact": "Memperkuat digital presence studio visual dan mempermudah calon klien dalam meninjau portofolio serta reservasi layanan."
+  },
+  {
     "id": "11",
     "title": "Lens & Light - Kling Photo",
     "category": "Web Development",
