@@ -1,5 +1,23 @@
 [
   {
+    "id": "14",
+    "title": "Rynora Invite — Platform Undangan Pernikahan Digital Eksklusif",
+    "category": "Web Development",
+    "image": "/projects/rynorainvite.png",
+    "description": "Platform SaaS undangan pernikahan digital premium dengan dual mode editor (Simple & Advanced Visual Builder), sistem presensi QR code, manajemen RSVP & buku tamu, amplop digital, serta pemutar musik terintegrasi.",
+    "tags": [
+      "Next.js",
+      "React",
+      "Tailwind CSS",
+      "TypeScript",
+      "SaaS"
+    ],
+    "link": "https://rynorainvt.vercel.app/",
+    "problem": "Calon pengantin dan vendor studio membutuhkan platform undangan digital berestetika luxury dengan fleksibilitas editor visual, manajemen RSVP akurat, dan fitur presensi check-in tamu di lokasi resepsi.",
+    "solution": "Membangun platform SaaS undangan digital berkecepatan tinggi dengan dua mode editor (Simple Guided & Visual Section Builder), QR scanner check-in, amplop digital, dan live responsive preview.",
+    "impact": "Memudahkan pasangan dan vendor dalam mengelola ribuan undangan, pencatatan kehadiran tamu secara real-time, serta memberikan pengalaman undangan interaktif yang elegan."
+  },
+  {
     "id": "13",
     "title": "NOIR FRAME — Studio Fotografi & Videografi Sinematik",
     "category": "Web Development",
