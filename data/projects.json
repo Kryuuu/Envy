@@ -1,5 +1,24 @@
 [
   {
+    "id": "15",
+    "title": "Rynora Career — CV & Portfolio Builder Instan",
+    "category": "Web Development",
+    "image": "",
+    "description": "Platform SaaS pembuat CV & portofolio instan untuk mahasiswa dan fresh graduate — isi form, pilih template, live preview, publikasi link portofolio, dan unduh CV versi ATS & Desain. Editor desain visual untuk Pro dan domain kustom untuk Bisnis.",
+    "tags": [
+      "Next.js",
+      "React",
+      "Tailwind CSS",
+      "TypeScript",
+      "Supabase",
+      "SaaS"
+    ],
+    "link": "https://rynoracareer.vercel.app/",
+    "problem": "Mahasiswa dan fresh graduate kesulitan membuat CV dan portofolio online yang rapi — template kaku, perlu skill desain, dan tidak ada cara mudah mempublikasikannya.",
+    "solution": "Membangun builder instan dengan 3 template, live preview, editor desain visual (atur urutan & tampil/sembunyi seksi, warna, font) untuk Pro, domain kustom untuk Bisnis, serta ekspor CV ATS & Desain, semuanya di atas Supabase Auth dan RLS.",
+    "impact": "Mahasiswa bisa membuat dan mempublikasikan portofolio profesional dalam hitungan menit, lengkap dengan CV siap kirim ke rekruter."
+  },
+  {
     "id": "14",
     "title": "Rynora Invite — Platform Undangan Pernikahan Digital Eksklusif",
     "category": "Web Development",
