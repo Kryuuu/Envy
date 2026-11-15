@@ -3,7 +3,7 @@
     "id": "15",
     "title": "Rynora Career — CV & Portfolio Builder Instan",
     "category": "Web Development",
-    "image": "",
+    "image": "/projects/rynoracareer.png",
     "description": "Platform SaaS pembuat CV & portofolio instan untuk mahasiswa dan fresh graduate — isi form, pilih template, live preview, publikasi link portofolio, dan unduh CV versi ATS & Desain. Editor desain visual untuk Pro dan domain kustom untuk Bisnis.",
     "tags": [
       "Next.js",
