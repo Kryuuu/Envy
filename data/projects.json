@@ -1,5 +1,24 @@
 [
   {
+    "id": "16",
+    "title": "Jaga Server 3D — Tower Defense & Mancing 3D",
+    "category": "Game Development",
+    "image": "/projects/3d-game.png",
+    "description": "Game tower defense 3D + mode mancing 3D dalam satu file HTML — 20 stage, 3 mode kesulitan, 4 robot menara, musuh virus yang menyerang balik, kuis edukasi, dan 12 spesies ikan RNG dengan sistem jual & aquarium. Dibangun dengan Three.js, tanpa install dan tanpa server.",
+    "tags": [
+      "Three.js",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "WebAudio",
+      "Game Development"
+    ],
+    "link": "https://kryuuu.github.io/3D-Game/",
+    "problem": "Game tower defense 3D biasanya butuh install atau engine berat — belum ada game 3D lengkap yang bisa langsung dimainkan dari browser tanpa unduhan.",
+    "solution": "Membangun game 3D lengkap dalam satu file HTML dengan Three.js: 20 stage tower defense dengan robot menara beranimasi, kuis edukasi antar stage, plus mode mancing 3D dengan RNG ikan, pancingan bertingkat, dan ekonomi jual ikan — semuanya berjalan lokal di browser dengan progres tersimpan otomatis.",
+    "impact": "Game 3D yang bisa langsung dimainkan siapa saja dari browser — tanpa install, tanpa akun, dan bisa di-host gratis di GitHub Pages."
+  },
+  {
     "id": "15",
     "title": "Rynora Career — CV & Portfolio Builder Instan",
     "category": "Web Development",
